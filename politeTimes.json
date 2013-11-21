@@ -1,0 +1,13 @@
+{
+    "bbc.co.uk" : {
+        "crawlRate" : 15000,
+        "lastCrawl" : null
+    },
+    "joshamhony.com" : {
+        "lastCrawl" : null
+    },
+    "sky.com" : {
+         "lastCrawl" : null,
+         "crawlRate" : 1000,
+     }
+}
