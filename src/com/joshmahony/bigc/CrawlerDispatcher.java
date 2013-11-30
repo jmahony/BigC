@@ -7,12 +7,14 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+
+
+import org.apache.logging.log4j.*;
+
 import org.json.simple.JSONArray;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -36,13 +38,14 @@ import org.json.simple.parser.JSONParser;
  */
 public class CrawlerDispatcher {
 
-    private final int NUM_THREADS = 1;
+    private final int NUM_THREADS       = 1;
     public final int DEFAULT_CRAWL_RATE = 10000;
-    public final int MIN_CRAWL_RATE = 5000;
+    public final int MIN_CRAWL_RATE     = 5000;
 
     private JedisPool pool;
     private ConcurrentLinkedQueue<URL> URLsToCrawl = new ConcurrentLinkedQueue<URL>();
-    final Logger logger = LoggerFactory.getLogger(Crawler.class);
+
+    Logger logger = LogManager.getLogger(CrawlerDispatcher.class.getName());
     private HttpServer server;
 
     private JSONObject politeTimes;
@@ -53,14 +56,14 @@ public class CrawlerDispatcher {
 
     public CrawlerDispatcher(String args[]) {
 
-        try {
-            server = HttpServer.create(new InetSocketAddress(8001), 0);
+        /*try {
+            server = HttpServer.create(new InetSocketAddress(8002), 0);
             server.createContext("/test", new MyHandler(this));
             server.setExecutor(null); // creates a default executor
             server.start();
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+        }*/
 
         logger.info("Crawler dispatcher launching");
 
@@ -135,7 +138,28 @@ public class CrawlerDispatcher {
 
     public URL getNextURL() {
 
-        return URLsToCrawl.poll();
+
+        if (URLsToCrawl.isEmpty()) {
+            logger.info("URLsToCrawl is empty, exiting program");
+            System.exit(0);
+        }
+
+        URL url = URLsToCrawl.poll();
+
+        if (!alreadyCrawled(url.toString())) {
+            return url;
+        }
+
+        return getNextURL();
+
+
+    }
+
+    public boolean alreadyCrawled(String url) {
+
+        Jedis connection = pool.getResource();
+
+        return connection.exists(url);
 
     }
 
@@ -219,12 +243,12 @@ public class CrawlerDispatcher {
             JSONObject domain = (JSONObject) p.getValue();
 
             if (!domain.containsKey("crawlRate")) {
-                logger.debug("Crawl rate not set for " + p.getKey() + " too low, setting crawl rate to " + MIN_CRAWL_RATE);
+                logger.warn("Crawl rate not set for " + p.getKey() + " too low, setting crawl rate to " + MIN_CRAWL_RATE);
                 domain.put("crawlRate", DEFAULT_CRAWL_RATE);
             }
 
             if (Integer.parseInt(domain.get("crawlRate").toString()) < MIN_CRAWL_RATE) {
-                logger.info("Minimum crawl rate is " + MIN_CRAWL_RATE + ", " + p.getKey() + " is " + domain.get("crawlRate") + ". Increasing to " + MIN_CRAWL_RATE);
+                logger.warn("Minimum crawl rate is " + MIN_CRAWL_RATE + ", " + p.getKey() + " is " + domain.get("crawlRate") + ". Increasing to " + MIN_CRAWL_RATE);
                 domain.put("crawlRate", MIN_CRAWL_RATE);
             }
         }

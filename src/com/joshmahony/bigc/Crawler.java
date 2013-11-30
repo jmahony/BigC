@@ -1,15 +1,16 @@
 package com.joshmahony.bigc;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.io.IOException;
 import java.net.URL;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,7 +24,10 @@ class Crawler implements Runnable {
     private CrawlerDispatcher crawlerDispatcher;
     private JedisPool pool;
 
-    final Logger logger = LoggerFactory.getLogger(Crawler.class);
+    final Logger logger = LogManager.getLogger(Crawler.class);
+
+    final static String userAgent = "BigC";
+    final static String referrer = "http://wwwjoshmahony.com/";
 
 
     public Crawler(CrawlerDispatcher cd, JedisPool jp) {
@@ -46,7 +50,7 @@ class Crawler implements Runnable {
 
                 try {
                     logger.info("Attempting to crawl " + urlToCrawl.toString());
-                    d = Jsoup.connect(urlToCrawl.toString()).userAgent("Josh").referrer("http://www.example.com").get();
+                    d = Jsoup.connect(urlToCrawl.toString()).userAgent(userAgent).referrer(referrer).header("Accept", "text/html").get();
                     crawlerDispatcher.addURLsToQueue(d);
 
                     connection.set(urlToCrawl.toString(), d.toString());
