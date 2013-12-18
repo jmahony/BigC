@@ -2,14 +2,15 @@ package com.joshmahony.bigc;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashSet;
 
 
 /**
@@ -22,50 +23,99 @@ import java.net.URL;
 class Crawler implements Runnable {
 
     private CrawlerDispatcher crawlerDispatcher;
-    private JedisPool pool;
+    private CrawlQueue crawlQueue;
 
     final Logger logger = LogManager.getLogger(Crawler.class);
 
-    final static String userAgent = "BigC";
-    final static String referrer = "http://wwwjoshmahony.com/";
+    private boolean running = true;
+
+    private HTMLStore store;
 
 
-    public Crawler(CrawlerDispatcher cd, JedisPool jp) {
+    public Crawler(CrawlerDispatcher cd, CrawlQueue cq, HTMLStore s) {
         crawlerDispatcher = cd;
-        pool = jp;
+        crawlQueue = cq;
+        store = s;
     }
 
+    public void terminate() {
+        running = false;
+    }
+
+    /**
+     * Crawl the web
+     */
     @Override
     public void run() {
-        while(true) {
+
+        logger.info("I'm alive!!");
+
+        while(running) {
             try {
 
-                Jedis connection = pool.getResource();
-                Document d = null;
-
                 logger.info("Fetching next URL to crawl...");
-                URL urlToCrawl = crawlerDispatcher.getNextURL();
 
-                if (urlToCrawl == null) continue;
+                URL urlToCrawl = crawlQueue.getNextURL();
 
-                try {
-                    logger.info("Attempting to crawl " + urlToCrawl.toString());
-                    d = Jsoup.connect(urlToCrawl.toString()).userAgent(userAgent).referrer(referrer).header("Accept", "text/html").get();
-                    crawlerDispatcher.addURLsToQueue(d);
+                logger.info(urlToCrawl.toString() + " - Attempting to crawl");
 
-                    connection.set(urlToCrawl.toString(), d.toString());
-                } catch(HttpStatusException e) {
-                    //TODO: Do something here
-                } catch (IOException e) {
-                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                }
+                Connection.Response res = Jsoup.connect(urlToCrawl.toString()).userAgent(C.USER_AGENT).referrer(C.REFERRER).header("Accept", "text/html").execute();
 
-                pool.returnResource(connection);
-                Thread.sleep(crawlerDispatcher.DEFAULT_CRAWL_RATE);
-            } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                Document d = res.parse();
+
+                HashSet<URL> urls = HTMLUtils.extractURLs(d);
+
+                crawlQueue.enqueueURLs(urls);
+
+                logger.info(urlToCrawl.toString() + " - Storing HTML");
+
+                store.store(urlToCrawl, d);
+
+            } catch (JedisConnectionException e) {
+
+                logger.error(e.getMessage());
+
+            } catch(HttpStatusException e) {
+
+                logger.warn(e.getMessage());
+
+            } catch (IOException e) {
+
+                logger.error(e.getMessage());
+
+            } catch (NoAvailableDomainsException e) {
+
+                logger.info(e.getMessage());
+                waitFor(C.DEFAULT_CRAWL_RATE);
+                continue;
+
+            } catch (CrawlQueueEmptyException e) {
+
+                logger.info(e.getMessage());
+                waitFor(C.DEFAULT_CRAWL_RATE);
+                continue;
+
             }
+
+            waitFor(C.DEFAULT_CRAWL_RATE);
+
         }
+
     }
+
+    private void waitFor(long millis) {
+
+        try {
+
+            Thread.sleep(millis);
+
+        } catch (InterruptedException e) {
+
+            logger.warn(e.getMessage());
+
+        }
+
+    }
+
 
 }
