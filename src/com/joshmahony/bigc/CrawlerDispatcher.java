@@ -17,7 +17,7 @@ public class CrawlerDispatcher {
     /**
      *
      */
-    CrawlQueue crawlQueue;
+    private CrawlQueue crawlQueue;
 
     /**
      * Creates an instance of log4j
