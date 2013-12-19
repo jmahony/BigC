@@ -24,23 +24,29 @@ public class CrawlQueue {
     /**
      *
      */
-    private static HashSet<String> domainWhiteList = new HashSet();
+    private static HashSet<String> domainWhiteList;
 
     /**
      * Creates an instance of log4j
      */
-    private final Logger logger = LogManager.getLogger(CrawlQueue.class.getName());
+    private final Logger logger;
 
     /**
      * This stores a list of domains we can crawl TODO: extend this to include a cached version of robots.txt
      */
-    ConcurrentHashMap<String, Domain> domainList = new ConcurrentHashMap();
+    ConcurrentHashMap<String, Domain> domainList;
 
     /**
      *
      * @param seedPath
      */
     public CrawlQueue(String seedPath) {
+
+        logger = LogManager.getLogger(CrawlQueue.class.getName());
+
+        domainWhiteList = new HashSet();
+
+        domainList = new ConcurrentHashMap();
 
         initMongoConnection();
 
