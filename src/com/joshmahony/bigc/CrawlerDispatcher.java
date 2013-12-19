@@ -75,7 +75,7 @@ public class CrawlerDispatcher {
 
         for (int i = 0; i < C.NUM_THREADS; i++) {
 
-            // Create a crawler and pass it a reference to the crawler dispatcher and the connection pool
+            // Create a crawler and pass it a reference to the crawler dispatcher and the connection connection
             Crawler c = new Crawler(this, crawlQueue, store);
 
             // Store a reference to the crawler thread, so we can perform operations on it later
