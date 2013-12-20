@@ -243,7 +243,7 @@ public class CrawlQueue {
             long difference = current - lastCrawlTimestamp;
 
             // Check if we're allowed to crawl the domain
-            if (difference > C.DEFAULT_CRAWL_RATE) {
+            if (difference > d.getCrawlRate()) {
 
                 domain = d;
 

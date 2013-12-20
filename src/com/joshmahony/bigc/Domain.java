@@ -218,6 +218,15 @@ public class Domain {
     private void setLastCrawlTime(long m) {
         lastCrawlTime = m;
     }
+
+    /**
+     * Get the crawl rate for a domain
+     * @return
+     */
+    public long getCrawlRate() {
+        return crawlRate;
+    }
+
     /**
      *
      * @return
