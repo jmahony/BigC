@@ -17,9 +17,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CrawlQueue {
 
     /**
-     * Store the connection pool to MongoDB
+     * Store the connection connection to MongoDB
      */
-    public MongoClient pool;
+    public MongoClient connection;
 
     /**
      *
@@ -59,11 +59,11 @@ public class CrawlQueue {
      */
     private void initMongoConnection() {
 
-        logger.info("Initialising MongoDB connection pool... ");
+        logger.info("Initialising MongoDB connection connection... ");
 
         try {
 
-            pool = new MongoClient(C.MONGO_HOST, C.MONGO_PORT);
+            connection = new MongoClient(C.MONGO_HOST, C.MONGO_PORT);
 
         } catch (UnknownHostException e) {
 
@@ -93,7 +93,7 @@ public class CrawlQueue {
 
             try {
 
-                Domain d = new Domain("http://" + entry.getKey().toString(), pool, entry.getValue());
+                Domain d = new Domain("http://" + entry.getKey().toString(), connection, entry.getValue());
 
                 addToDomainWhiteList(d);
 
@@ -174,7 +174,7 @@ public class CrawlQueue {
 
                 if (!domainList.containsKey(domain.getHost())) {
 
-                    domainList.put(((URL) entry.getKey()).getHost(), new Domain(domain.toString(), pool));
+                    domainList.put(((URL) entry.getKey()).getHost(), new Domain(domain.toString(), connection));
                 }
 
                 domainList.get(domain.getHost()).enqueueURLs((HashSet<String>) entry.getValue());

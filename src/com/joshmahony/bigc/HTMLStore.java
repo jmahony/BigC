@@ -13,7 +13,7 @@ import java.net.UnknownHostException;
 
 public class HTMLStore {
 
-    private static MongoClient pool;
+    private static MongoClient connection;
 
     /**
      * Creates an instance of log4j
@@ -71,11 +71,11 @@ public class HTMLStore {
      */
     private void initMongoConnection() {
 
-        logger.info("Initialising MongoDB connection pool... ");
+        logger.info("Initialising MongoDB connection connection... ");
 
         try {
 
-            pool = new MongoClient(C.MONGO_HOST, C.MONGO_PORT);
+            connection = new MongoClient(C.MONGO_HOST, C.MONGO_PORT);
 
         } catch (UnknownHostException e) {
 
@@ -95,7 +95,7 @@ public class HTMLStore {
     public DBCollection getCollection(String collectionName) {
 
         // Get a connection to the database
-        DB db = pool.getDB(C.MONGO_DATABASE);
+        DB db = connection.getDB(C.MONGO_DATABASE);
 
         // Get the crawl queue collection
         DBCollection collection = db.getCollection(collectionName);

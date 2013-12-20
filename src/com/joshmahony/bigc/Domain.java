@@ -35,9 +35,9 @@ public class Domain {
     public boolean isEmpty;
 
     /**
-     * Store the connection pool to MongoDB
+     * Store the connection connection to MongoDB
      */
-    public MongoClient pool;
+    public MongoClient connection;
 
     /**
      * Creates an instance of log4j
@@ -47,15 +47,15 @@ public class Domain {
     /**
      *
      * @param _domain
-     * @param _pool
+     * @param _connection
      */
-    public Domain(String _domain, MongoClient _pool, Object _settings) throws MalformedURLException {
+    public Domain(String _domain, MongoClient _connection, Object _settings) throws MalformedURLException {
 
         logger = LogManager.getLogger(Domain.class.getName());
 
         url = new URL(_domain);
 
-        pool = _pool;
+        connection = _connection;
 
         SettingsParser sp = new SettingsParser(url, (JSONObject) _settings);
 
@@ -71,7 +71,7 @@ public class Domain {
 
         url = new URL(_domain);
 
-        pool = _pool;
+        connection = _pool;
 
         crawlRate = C.DEFAULT_CRAWL_RATE;
 
@@ -184,7 +184,7 @@ public class Domain {
     public DBCollection getCollection(String collectionName) {
 
         // Get a connection to the database
-        DB db = pool.getDB(C.MONGO_DATABASE);
+        DB db = connection.getDB(C.MONGO_DATABASE);
 
         // Get the crawl queue collection
         DBCollection collection = db.getCollection(collectionName);
