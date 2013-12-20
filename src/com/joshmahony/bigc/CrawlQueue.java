@@ -32,6 +32,12 @@ public class CrawlQueue {
     private final Logger logger;
 
     /**
+     * Used to store an instance of the queue iterator, so we can resume the search after a URL is returned.
+     * Otherwise we would start at the beginning each time.
+     */
+    private Iterator queueIterator;
+
+    /**
      * This stores a list of domains we can crawl TODO: extend this to include a cached version of robots.txt
      */
     ConcurrentHashMap<String, Domain> domainList;
@@ -47,6 +53,8 @@ public class CrawlQueue {
         domainWhiteList = new HashSet();
 
         domainList = new ConcurrentHashMap();
+
+        queueIterator = null;
 
         initMongoConnection();
 
@@ -209,18 +217,21 @@ public class CrawlQueue {
      */
     private synchronized Domain getNextDomain() throws NoAvailableDomainsException {
 
-        // Get the iterator for the entries in the domainList hashmap
-        Iterator itr = domainList.entrySet().iterator();
+        // If the iterator hasn't been initilised, or it has no more elements, bring the iterator back to the start
+        // by creating a new instance. We keep a reference so all domains are attempted at some point.
+        if (queueIterator == null || !queueIterator.hasNext()) {
+            queueIterator = domainList.entrySet().iterator();
+        }
 
         Domain domain = null;
 
         long current = System.currentTimeMillis();
 
         // Iterate over each entry in domainList
-        while (itr.hasNext()) {
+        while (queueIterator.hasNext()) {
 
             // Get the next domain
-            Map.Entry domainEntry = (Map.Entry) itr.next();
+            Map.Entry domainEntry = (Map.Entry) queueIterator.next();
 
             Domain d = (Domain) domainEntry.getValue();
 
