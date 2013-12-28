@@ -87,13 +87,13 @@ public class Domain {
         // Make sure the domain doesn't already have a document
         if (hasQueueInDatabase()){
 
-            logger.info(getDomain() + " Already has domain queue in database");
+            logger.debug(getDomain() + " Already has domain queue in database");
 
             return;
 
         }
 
-        logger.info("Creating new domain queue for " + getDomain() + " in database");
+        logger.debug("Creating new domain queue for " + getDomain() + " in database");
 
         // Get the crawl queue collection
         DBCollection collection = getCollection(C.CRAWL_QUEUE_COLLECTION);

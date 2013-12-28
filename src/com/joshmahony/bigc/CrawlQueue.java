@@ -123,7 +123,7 @@ public class CrawlQueue {
      */
     private void addToDomainList(Domain d) {
 
-        logger.info("Adding to domain list: " + d.getDomain());
+        logger.debug("Adding to domain list: " + d.getDomain());
 
         domainList.put(d.getDomain(), d);
 
@@ -135,7 +135,7 @@ public class CrawlQueue {
      */
     private void addToDomainWhiteList(Domain d) {
 
-        logger.info("Adding to domain white list: " + d.getDomain());
+        logger.debug("Adding to domain white list: " + d.getDomain());
 
         domainWhiteList.add(d.getDomain());
 

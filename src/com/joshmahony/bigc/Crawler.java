@@ -53,11 +53,11 @@ class Crawler implements Runnable {
         while(running) {
             try {
 
-                logger.info("Fetching next URL to crawl...");
+                logger.debug("Fetching next URL to crawl...");
 
                 URL urlToCrawl = crawlQueue.getNextURL();
 
-                logger.info(urlToCrawl.toString() + " - Attempting to crawl");
+                logger.info("Attempting to crawl " + urlToCrawl.toString());
 
                 Connection.Response res = Jsoup.connect(urlToCrawl.toString()).userAgent(C.USER_AGENT).referrer(C.REFERRER).header("Accept", "text/html").execute();
 
@@ -67,7 +67,7 @@ class Crawler implements Runnable {
 
                 crawlQueue.enqueueURLs(urls);
 
-                logger.info(urlToCrawl.toString() + " - Storing HTML");
+                logger.info("Storing HTML" + urlToCrawl.toString());
 
                 store.store(urlToCrawl, d);
 
