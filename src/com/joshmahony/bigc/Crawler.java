@@ -6,7 +6,6 @@ import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -103,9 +102,6 @@ class Crawler implements Runnable {
 
                 store.store(urlToCrawl, d);
 
-            } catch (JedisConnectionException e) {
-
-                logger.error(e.getMessage());
 
             } catch(HttpStatusException e) {
 
