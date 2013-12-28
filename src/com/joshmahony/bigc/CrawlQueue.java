@@ -225,8 +225,6 @@ public class CrawlQueue {
 
         Domain domain = null;
 
-        long current = System.currentTimeMillis();
-
         // Iterate over each entry in domainList
         while (queueIterator.hasNext()) {
 
@@ -234,6 +232,8 @@ public class CrawlQueue {
             Map.Entry domainEntry = (Map.Entry) queueIterator.next();
 
             Domain d = (Domain) domainEntry.getValue();
+
+            long current = System.currentTimeMillis();
 
             if (!domainWhiteList.contains(d.getDomain()) && C.ONLY_CRAWL_WHITELIST) continue;
 
