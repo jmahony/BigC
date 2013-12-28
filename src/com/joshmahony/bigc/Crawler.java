@@ -22,24 +22,56 @@ import java.util.HashSet;
  */
 class Crawler implements Runnable {
 
+    /**
+     * Stores a reference the crawler dispatch object
+     */
     private CrawlerDispatcher crawlerDispatcher;
+
+    /**
+     * Stores a reference to the crawl queue
+     */
     private CrawlQueue crawlQueue;
 
-    final Logger logger = LogManager.getLogger(Crawler.class);
+    /**
+     * Stores an instance of log4j
+     */
+    private final Logger logger;
 
+    /**
+     * Flag for the while loop
+     */
     private boolean running = true;
 
+    /**
+     * Stores a reference to the HTML Store
+     */
     private HTMLStore store;
 
-
+    /**
+     *
+     * @param cd
+     * @param cq
+     * @param s
+     */
     public Crawler(CrawlerDispatcher cd, CrawlQueue cq, HTMLStore s) {
+
+        logger = LogManager.getLogger(Crawler.class);
+
         crawlerDispatcher = cd;
+
         crawlQueue = cq;
+
         store = s;
+
     }
 
+    /**
+     * Terminates the crawl loop
+     */
     public void terminate() {
+
         running = false;
+
     }
 
     /**
@@ -67,7 +99,7 @@ class Crawler implements Runnable {
 
                 crawlQueue.enqueueURLs(urls);
 
-                logger.info("Storing HTML" + urlToCrawl.toString());
+                logger.info("Storing HTML " + urlToCrawl.toString());
 
                 store.store(urlToCrawl, d);
 
@@ -86,13 +118,17 @@ class Crawler implements Runnable {
             } catch (NoAvailableDomainsException e) {
 
                 logger.info(e.getMessage());
+
                 waitFor(C.DEFAULT_CRAWL_RATE);
+
                 continue;
 
             } catch (CrawlQueueEmptyException e) {
 
                 logger.info(e.getMessage());
+
                 waitFor(C.DEFAULT_CRAWL_RATE);
+
                 continue;
 
             }
@@ -103,6 +139,10 @@ class Crawler implements Runnable {
 
     }
 
+    /**
+     * Suspend the loop
+     * @param millis
+     */
     private void waitFor(long millis) {
 
         try {
@@ -116,6 +156,5 @@ class Crawler implements Runnable {
         }
 
     }
-
 
 }
