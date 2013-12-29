@@ -58,6 +58,6 @@ public class C {
     /**
      *
      */
-    public static final boolean ONLY_CRAWL_WHITELIST = false;
+    public static final boolean ONLY_CRAWL_WHITELIST = true;
 
 }

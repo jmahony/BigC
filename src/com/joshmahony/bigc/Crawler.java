@@ -6,7 +6,6 @@ import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import redis.clients.jedis.exceptions.JedisConnectionException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,24 +21,56 @@ import java.util.HashSet;
  */
 class Crawler implements Runnable {
 
+    /**
+     * Stores a reference the crawler dispatch object
+     */
     private CrawlerDispatcher crawlerDispatcher;
+
+    /**
+     * Stores a reference to the crawl queue
+     */
     private CrawlQueue crawlQueue;
 
-    final Logger logger = LogManager.getLogger(Crawler.class);
+    /**
+     * Stores an instance of log4j
+     */
+    private final Logger logger;
 
+    /**
+     * Flag for the while loop
+     */
     private boolean running = true;
 
+    /**
+     * Stores a reference to the HTML Store
+     */
     private HTMLStore store;
 
-
+    /**
+     *
+     * @param cd
+     * @param cq
+     * @param s
+     */
     public Crawler(CrawlerDispatcher cd, CrawlQueue cq, HTMLStore s) {
+
+        logger = LogManager.getLogger(Crawler.class);
+
         crawlerDispatcher = cd;
+
         crawlQueue = cq;
+
         store = s;
+
     }
 
+    /**
+     * Terminates the crawl loop
+     */
     public void terminate() {
+
         running = false;
+
     }
 
     /**
@@ -53,11 +84,11 @@ class Crawler implements Runnable {
         while(running) {
             try {
 
-                logger.info("Fetching next URL to crawl...");
+                logger.debug("Fetching next URL to crawl...");
 
                 URL urlToCrawl = crawlQueue.getNextURL();
 
-                logger.info(urlToCrawl.toString() + " - Attempting to crawl");
+                logger.info("Attempting to crawl " + urlToCrawl.toString());
 
                 Connection.Response res = Jsoup.connect(urlToCrawl.toString()).userAgent(C.USER_AGENT).referrer(C.REFERRER).header("Accept", "text/html").execute();
 
@@ -67,13 +98,10 @@ class Crawler implements Runnable {
 
                 crawlQueue.enqueueURLs(urls);
 
-                logger.info(urlToCrawl.toString() + " - Storing HTML");
+                logger.info("Storing HTML " + urlToCrawl.toString());
 
                 store.store(urlToCrawl, d);
 
-            } catch (JedisConnectionException e) {
-
-                logger.error(e.getMessage());
 
             } catch(HttpStatusException e) {
 
@@ -86,13 +114,17 @@ class Crawler implements Runnable {
             } catch (NoAvailableDomainsException e) {
 
                 logger.info(e.getMessage());
+
                 waitFor(C.DEFAULT_CRAWL_RATE);
+
                 continue;
 
             } catch (CrawlQueueEmptyException e) {
 
                 logger.info(e.getMessage());
+
                 waitFor(C.DEFAULT_CRAWL_RATE);
+
                 continue;
 
             }
@@ -103,6 +135,10 @@ class Crawler implements Runnable {
 
     }
 
+    /**
+     * Suspend the loop
+     * @param millis
+     */
     private void waitFor(long millis) {
 
         try {
@@ -116,6 +152,5 @@ class Crawler implements Runnable {
         }
 
     }
-
 
 }

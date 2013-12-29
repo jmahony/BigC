@@ -14,4 +14,3 @@ class NoAvailableDomainsException extends Exception {
     }
 
 }
-

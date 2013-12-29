@@ -13,19 +13,32 @@ import java.net.UnknownHostException;
 
 public class HTMLStore {
 
+    /**
+     * Stores a connection to MongoDB
+     */
     private static MongoClient connection;
 
     /**
      * Creates an instance of log4j
      */
-    Logger logger = LogManager.getLogger(CrawlQueue.class.getName());
+    private final Logger logger;
 
+    /**
+     *  Initialise the HTML Store
+     */
     public HTMLStore() {
+
+        logger = LogManager.getLogger(HTMLStore.class.getName());
 
         initMongoConnection();
 
     }
 
+    /**
+     * Check see to if a URL already has a database entry
+     * @param url
+     * @return
+     */
     private boolean hasURLInDatabase(URL url) {
 
         return getCollection(C.HTML_STORE_COLLECTION).find(new BasicDBObject("url", url.toString())).limit(1).size() > 0;
@@ -33,25 +46,28 @@ public class HTMLStore {
     }
 
     /**
-     * TODO: Make this only store a document if its change
+     * TODO: Make this only store a document if its changed
      * @param url
      * @param d
      */
     public void store(URL url, Document d) {
 
+        // Get the HTML Store collection
         DBCollection collection = getCollection(C.HTML_STORE_COLLECTION);
 
+        // Create an object to store the HTML, key as the current timestamp, the HTML as the value
         BasicDBObject html = new BasicDBObject((new Long(System.currentTimeMillis())).toString(), d.toString());
 
+        // If the URL already has an entry, append it to the array of entries
         if (hasURLInDatabase(url)) {
 
             BasicDBObject query = new BasicDBObject("url", url.toString());
 
-            // Build the set to add to the queue
             BasicDBObject update = new BasicDBObject("$addToSet", html);
 
             collection.update(query, update);
 
+        // Else add a new entry
         } else {
 
             BasicDBObject query = new BasicDBObject();
@@ -67,7 +83,7 @@ public class HTMLStore {
     }
 
     /**
-     * Creare a connection to mongo
+     * Creare a connection to MongoDB
      */
     private void initMongoConnection() {
 

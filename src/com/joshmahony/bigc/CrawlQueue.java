@@ -32,6 +32,12 @@ public class CrawlQueue {
     private final Logger logger;
 
     /**
+     * Used to store an instance of the queue iterator, so we can resume the search after a URL is returned.
+     * Otherwise we would start at the beginning each time.
+     */
+    private Iterator queueIterator;
+
+    /**
      * This stores a list of domains we can crawl TODO: extend this to include a cached version of robots.txt
      */
     ConcurrentHashMap<String, Domain> domainList;
@@ -47,6 +53,8 @@ public class CrawlQueue {
         domainWhiteList = new HashSet();
 
         domainList = new ConcurrentHashMap();
+
+        queueIterator = null;
 
         initMongoConnection();
 
@@ -115,7 +123,7 @@ public class CrawlQueue {
      */
     private void addToDomainList(Domain d) {
 
-        logger.info("Adding to domain list: " + d.getDomain());
+        logger.debug("Adding to domain list: " + d.getDomain());
 
         domainList.put(d.getDomain(), d);
 
@@ -127,7 +135,7 @@ public class CrawlQueue {
      */
     private void addToDomainWhiteList(Domain d) {
 
-        logger.info("Adding to domain white list: " + d.getDomain());
+        logger.debug("Adding to domain white list: " + d.getDomain());
 
         domainWhiteList.add(d.getDomain());
 
@@ -209,20 +217,23 @@ public class CrawlQueue {
      */
     private synchronized Domain getNextDomain() throws NoAvailableDomainsException {
 
-        // Get the iterator for the entries in the domainList hashmap
-        Iterator itr = domainList.entrySet().iterator();
+        // If the iterator hasn't been initilised, or it has no more elements, bring the iterator back to the start
+        // by creating a new instance. We keep a reference so all domains are attempted at some point.
+        if (queueIterator == null || !queueIterator.hasNext()) {
+            queueIterator = domainList.entrySet().iterator();
+        }
 
         Domain domain = null;
 
-        long current = System.currentTimeMillis();
-
         // Iterate over each entry in domainList
-        while (itr.hasNext()) {
+        while (queueIterator.hasNext()) {
 
             // Get the next domain
-            Map.Entry domainEntry = (Map.Entry) itr.next();
+            Map.Entry domainEntry = (Map.Entry) queueIterator.next();
 
             Domain d = (Domain) domainEntry.getValue();
+
+            long current = System.currentTimeMillis();
 
             if (!domainWhiteList.contains(d.getDomain()) && C.ONLY_CRAWL_WHITELIST) continue;
 
@@ -243,7 +254,7 @@ public class CrawlQueue {
             long difference = current - lastCrawlTimestamp;
 
             // Check if we're allowed to crawl the domain
-            if (difference > C.DEFAULT_CRAWL_RATE) {
+            if (difference > d.getCrawlRate()) {
 
                 domain = d;
 
