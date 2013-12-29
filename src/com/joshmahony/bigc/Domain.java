@@ -186,9 +186,11 @@ public class Domain {
 
                 URL u = makeURLFromPath(url);
 
-                boolean r = rules.isAllowed(u.toString());
+                boolean robotsAllowed = rules.isAllowed(u.toString());
 
-                if (!r) {
+                boolean alreadyCrawled = hasDocument(u);
+
+                if (!robotsAllowed || alreadyCrawled) {
                     remove.add(url);
                 }
             }
@@ -266,6 +268,16 @@ public class Domain {
 
     }
 
+    public boolean hasDocument(URL url) {
+
+        DBCollection collection = getCollection(C.HTML_STORE_COLLECTION);
+
+        DBCursor o = collection.find(new BasicDBObject("url", url.toString()));
+
+        return o.size() > 0;
+
+    }
+
     /**
      * Is this going to hang with every new domain created?!?!?!
      * TODO: run this in its own thread or create a job to fetch robots.txt OR!! make the crawler fetch it on its first crawl.
@@ -273,6 +285,9 @@ public class Domain {
     private void getRobots() {
 
         if (hasRobots) return;
+
+        // Only get robots.txt if the domain is in the whitelist
+        if (!CrawlQueue.domainWhiteList.contains(getDomain())) return;
 
         logger.info("Fetching robots.txt for " + getDomain());
 

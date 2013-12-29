@@ -22,9 +22,9 @@ public class CrawlQueue {
     public MongoClient connection;
 
     /**
-     *
+     * Stores a list of domains we're allowed to crawl
      */
-    private static HashSet<String> domainWhiteList;
+    public static HashSet<String> domainWhiteList;
 
     /**
      * Creates an instance of log4j
