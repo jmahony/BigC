@@ -190,7 +190,7 @@ public class Domain {
 
                 boolean alreadyCrawled = hasDocument(u);
 
-                if (!robotsAllowed || alreadyCrawled) {
+                if (!robotsAllowed || alreadyCrawled || url.length() == 0) {
                     remove.add(url);
                 }
             }
@@ -361,4 +361,3 @@ public class Domain {
     }
 
 }
-
