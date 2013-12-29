@@ -2,23 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="be6c6596-e982-4806-aa06-9ff5c4ec8cf4" name="Default" comment="Change logging level to info&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlQueue.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/Domain.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/Exceptions.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/FileLoader.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLStore.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLUtils.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mongodb_mongo_java_driver_2_11_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/SettingsParser.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dictionaries/joshmahony.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/urlList.dat" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BigC.iml" afterPath="$PROJECT_DIR$/BigC.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/joshmahony/bigc/Crawler.java" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/Crawler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlerDispatcher.java" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlerDispatcher.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/joshmahony/bigc/C.java" afterPath="$PROJECT_DIR$/src/com/joshmahony/bigc/C.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/log4j2.xml" afterPath="$PROJECT_DIR$/log4j2.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/politeTimes.json" afterPath="$PROJECT_DIR$/politeTimes.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BigC.iws" />
@@ -75,38 +62,7 @@
         <option name="LOG_MESSAGE" value="&#13;&#13;JAVA" />
       </breakpoint>
     </breakpoint_any>
-    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true">
-      <breakpoint url="file://$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlQueue.java" line="216" class="com.joshmahony.bigc.CrawlQueue" package="com.joshmahony.bigc">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Domain.java" line="155" class="com.joshmahony.bigc.Domain" package="com.joshmahony.bigc">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="REMOVE_AFTER_HIT" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="SUSPEND" value="true" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="true" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
+    <line_breakpoints default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -116,13 +72,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="CrawlQueue.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlQueue.java">
+      <file leaf-file-name="CrawlerDispatcher.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlerDispatcher.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="73" column="18" selection-start="1561" selection-end="1561" vertical-scroll-proportion="1.7711039" vertical-offset="4" max-vertical-offset="3915">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state line="58" column="0" selection-start="980" selection-end="980" vertical-scroll-proportion="0.0" vertical-offset="146" max-vertical-offset="1440">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HTMLUtils.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLUtils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="22" selection-start="362" selection-end="371" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -130,52 +93,8 @@
       <file leaf-file-name="HTMLStore.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLStore.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="24" selection-start="446" selection-end="516" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1695">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="politeTimes.json" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/politeTimes.json">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="1" selection-start="234" selection-end="234" vertical-scroll-proportion="-7.2" vertical-offset="0" max-vertical-offset="270">
+            <state line="84" column="7" selection-start="2068" selection-end="2068" vertical-scroll-proportion="0.0" vertical-offset="341" max-vertical-offset="1800">
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Domain.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Domain.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="76" column="0" selection-start="1405" selection-end="1405" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3480">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingsParser.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/SettingsParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="2" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="1080">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FileLoader.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/FileLoader.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="55" selection-start="995" selection-end="995" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1065">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -183,7 +102,54 @@
       <file leaf-file-name="Crawler.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Crawler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="352" selection-end="352" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1905">
+            <state line="109" column="37" selection-start="2310" selection-end="2310" vertical-scroll-proportion="0.0" vertical-offset="1469" max-vertical-offset="2430">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Domain.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Domain.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="222" column="0" selection-start="5726" selection-end="5726" vertical-scroll-proportion="0.09030545" vertical-offset="3262" max-vertical-offset="5325">
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#4538#4546#0" expanded="true" />
+                <element signature="e#7824#7825#0" expanded="true" />
+                <element signature="e#7862#7863#0" expanded="true" />
+                <element signature="e#7946#7947#0" expanded="true" />
+                <element signature="e#7981#7982#0" expanded="true" />
+                <element signature="e#8085#8086#0" expanded="true" />
+                <element signature="e#8119#8120#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Exceptions.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Exceptions.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="15" column="1" selection-start="275" selection-end="275" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Maven__org_slf4j_slf4j_api_1_7_5.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_5.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="12" column="0" selection-start="482" selection-end="482" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="politeTimes.json" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/politeTimes.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="4" column="1" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
               <folding />
             </state>
           </provider>
@@ -192,7 +158,7 @@
       <file leaf-file-name="C.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/C.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="47" selection-start="807" selection-end="807" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1035">
+            <state line="60" column="59" selection-start="1376" selection-end="1376" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1035">
               <folding />
             </state>
           </provider>
@@ -226,25 +192,28 @@
         <option value="$PROJECT_DIR$/src/politeTimes.json" />
         <option value="$PROJECT_DIR$/log4j.properties" />
         <option value="$PROJECT_DIR$/log4j.xml" />
-        <option value="$PROJECT_DIR$/log4j2.xml" />
-        <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/crawlQueue.java" />
         <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/crawlQueue.java" />
         <option value="$PROJECT_DIR$/urlList.dat" />
         <option value="$PROJECT_DIR$/debug.txt" />
-        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLStore.java" />
         <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLUtils.java" />
-        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/Exceptions.java" />
         <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/FileStringLoader.java" />
         <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/FileLoader.java" />
-        <option value="$PROJECT_DIR$/politeTimes.json" />
-        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/C.java" />
         <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/PoliteTime.java" />
         <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/SettingsParser.java" />
-        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/Domain.java" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/src/CrawlerSpawner.java" />
+        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlerSpawner.java" />
         <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlQueue.java" />
-        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/Crawler.java" />
+        <option value="$PROJECT_DIR$/log4j2.xml" />
         <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlerDispatcher.java" />
+        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/Exceptions.java" />
+        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLStore.java" />
+        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/C.java" />
+        <option value="$PROJECT_DIR$/politeTimes.json" />
+        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/Crawler.java" />
+        <option value="$PROJECT_DIR$/src/com/joshmahony/bigc/Domain.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
   </component>
@@ -286,8 +255,8 @@
   </component>
   <component name="ProjectFrameBounds">
     <option name="y" value="22" />
-    <option name="width" value="1672" />
-    <option name="height" value="1024" />
+    <option name="width" value="1933" />
+    <option name="height" value="1414" />
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">
     <entry key="Project Default">
@@ -297,9 +266,17 @@
             <id />
           </State>
           <State>
+            <id>Error handling</id>
+          </State>
+          <State>
             <id>General</id>
           </State>
         </expanded-state>
+        <selected-state>
+          <State>
+            <id>Error handling</id>
+          </State>
+        </selected-state>
       </profile-state>
     </entry>
   </component>
@@ -315,6 +292,11 @@
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectStructureProblems">
+    <ignored-problems>
+      <problem id="invalid-module-dependency(module:BigC,Maven: org.slf4j:slf4j-api:1.6.6)" />
+    </ignored-problems>
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
@@ -367,12 +349,12 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="419" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="421" />
     <property name="project.structure.proportion" value="0.15" />
@@ -403,13 +385,15 @@
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="options.lastSelected" value="Errors" />
     <property name="project.structure.side.proportion" value="0.3376168" />
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="options.searchVisible" value="true" />
     <property name="dynamic.classpath" value="false" />
     <property name="SearchEverywhereHistory" value="show" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -594,9 +578,15 @@
         <option name="TRANSPORT" value="0" />
         <option name="LOCAL" value="true" />
       </RunnerSettings>
+      <RunnerSettings RunnerId="Debug with VisualVM">
+        <option name="DEBUG_PORT" value="" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
       <RunnerSettings RunnerId="Run" />
       <RunnerSettings RunnerId="Run with VisualVM" />
       <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Debug with VisualVM" />
       <ConfigurationWrapper RunnerId="Run" />
       <ConfigurationWrapper RunnerId="Run with VisualVM" />
       <method />
@@ -645,11 +635,15 @@
       <created>1385838157826</created>
       <updated>1385838157827</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Update readme">
+      <created>1387571107714</created>
+      <updated>1387571107714</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1672" height="1024" extended-state="0" />
+    <frame x="0" y="22" width="1933" height="1414" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -657,28 +651,31 @@
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32879582" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3613383" sideWeight="0.49969897" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2836167" sideWeight="0.34557495" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43904322" sideWeight="0.49969897" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39737654" sideWeight="0.34584877" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33717278" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32565445" sideWeight="0.49969897" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4537037" sideWeight="0.49920678" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Run with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50052357" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.249694" sideWeight="0.6998785" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26328126" sideWeight="0.45575222" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.26229507" sideWeight="0.45575222" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21830143" sideWeight="0.45575222" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4692388" sideWeight="0.654425" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3295688" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19196193" sideWeight="0.45575222" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39737654" sideWeight="0.65415126" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24975705" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32936803" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24004425" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug with VisualVM" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.json" />
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USERS">
@@ -695,7 +692,8 @@
     <MESSAGE value="Initial Commit" />
     <MESSAGE value="Change logging level to info" />
     <MESSAGE value="Change logging level to info&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change logging level to info&#10;" />
+    <MESSAGE value="Update readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="Update readme" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -709,45 +707,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Crawler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="96" column="18" selection-start="2421" selection-end="2421" vertical-scroll-proportion="0.0" vertical-offset="1440" max-vertical-offset="1860">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.17/log4j-1.2.17.jar!/org/apache/log4j/xml/log4j.dtd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="5" selection-start="328" selection-end="331" vertical-scroll-proportion="0.17964073" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/log4j/log4j/1.2.17/log4j-1.2.17.jar!/org/apache/log4j/xml/XMLLayout.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="41" selection-start="290" selection-end="290" vertical-scroll-proportion="0.20076482" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.5/slf4j-api-1.7.5.jar!/org/slf4j/Logger.class">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="17" selection-start="156" selection-end="156" vertical-scroll-proportion="-0.11029412" vertical-offset="0" max-vertical-offset="0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/log4j2.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="16" selection-start="571" selection-end="571" vertical-scroll-proportion="0.3314917" vertical-offset="0" max-vertical-offset="0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="44" selection-start="485" selection-end="492" vertical-scroll-proportion="0.16666667" vertical-offset="0" max-vertical-offset="0">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/src.zip!/java/lang/Runnable.java">
@@ -792,9 +754,7 @@
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/src.zip!/java/util/ArrayList.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="258" column="0" selection-start="9378" selection-end="9378" vertical-scroll-proportion="0.0" vertical-offset="3229" max-vertical-offset="17325">
-          <folding />
-        </state>
+        <state line="258" column="0" selection-start="9378" selection-end="9378" vertical-scroll-proportion="0.0" vertical-offset="3229" max-vertical-offset="17325" />
       </provider>
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/src.zip!/java/util/Vector.java">
@@ -853,9 +813,7 @@
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/src.zip!/java/lang/String.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2523" column="0" selection-start="100514" selection-end="100514" vertical-scroll-proportion="0.0" vertical-offset="37054" max-vertical-offset="46140">
-          <folding />
-        </state>
+        <state line="2523" column="0" selection-start="100514" selection-end="100514" vertical-scroll-proportion="0.0" vertical-offset="37054" max-vertical-offset="46140" />
       </provider>
     </entry>
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home/jre/lib/rt.jar!/sun/net/util/URLUtil.class">
@@ -918,85 +876,83 @@
         <state line="759" column="31" selection-start="25570" selection-end="25570" vertical-scroll-proportion="0.0" vertical-offset="10255" max-vertical-offset="11145" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLUtils.java">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="22" selection-start="362" selection-end="371" vertical-scroll-proportion="0.17564403" vertical-offset="0" max-vertical-offset="1281">
+        <state line="5" column="13" selection-start="93" selection-end="93" vertical-scroll-proportion="0.058049537" vertical-offset="0" max-vertical-offset="1292" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/debug.log">
+      <provider editor-type-id="text-editor">
+        <state line="1046374" column="86" selection-start="93762728" selection-end="93762728" vertical-scroll-proportion="0.0" vertical-offset="15695613" max-vertical-offset="15735990" />
+      </provider>
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/log4j2.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="16" selection-start="579" selection-end="579" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="330">
+          <folding>
+            <marker date="1387722141000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1387722141000" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/FileLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="0" selection-start="806" selection-end="806" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/debug.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="867" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Exceptions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="277" selection-end="277" vertical-scroll-proportion="0.3068592" vertical-offset="0" max-vertical-offset="831">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Crawler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="352" selection-end="352" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1905">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/C.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="47" selection-start="807" selection-end="807" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1035">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/FileLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="55" selection-start="995" selection-end="995" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="945">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlerDispatcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="34" selection-start="64" selection-end="64" vertical-scroll-proportion="0.048701297" vertical-offset="0" max-vertical-offset="1440">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/SettingsParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0" vertical-offset="1" max-vertical-offset="1080">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="11" column="13" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Domain.java">
+    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="0" selection-start="1405" selection-end="1405" vertical-scroll-proportion="0.0" vertical-offset="618" max-vertical-offset="3375">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/politeTimes.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="1" selection-start="234" selection-end="234" vertical-scroll-proportion="-7.2" vertical-offset="0" max-vertical-offset="270">
+        <state line="15" column="22" selection-start="362" selection-end="371" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="840">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/HTMLStore.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="24" selection-start="446" selection-end="516" vertical-scroll-proportion="0.0" vertical-offset="108" max-vertical-offset="1695">
+        <state line="84" column="7" selection-start="2068" selection-end="2068" vertical-scroll-proportion="0.0" vertical-offset="341" max-vertical-offset="1800">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/com/google/code/crawler-commons/crawler-commons/0.3/crawler-commons-0.3.jar!/crawlercommons/robots/BaseRobotRules.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="20" column="38" selection-start="583" selection-end="639" vertical-scroll-proportion="0.2245863" vertical-offset="0" max-vertical-offset="1269">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/C.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="60" column="59" selection-start="1376" selection-end="1376" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1035">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/politeTimes.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="4" column="1" selection-start="61" selection-end="61" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="150">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Crawler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="109" column="37" selection-start="2310" selection-end="2310" vertical-scroll-proportion="0.0" vertical-offset="1469" max-vertical-offset="2430">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1005,9 +961,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlQueue.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="18" selection-start="1561" selection-end="1561" vertical-scroll-proportion="1.7711039" vertical-offset="4" max-vertical-offset="3915">
+        <state line="217" column="66" selection-start="4949" selection-end="4949" vertical-scroll-proportion="1.6366237" vertical-offset="1976" max-vertical-offset="4035">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/CrawlerDispatcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="58" column="0" selection-start="980" selection-end="980" vertical-scroll-proportion="0.0" vertical-offset="513" max-vertical-offset="1440">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_5.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="0" selection-start="482" selection-end="482" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Exceptions.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="1" selection-start="275" selection-end="275" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="0" selection-start="1871" selection-end="1871" vertical-scroll-proportion="0.57768923" vertical-offset="450" max-vertical-offset="1230">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/joshmahony/bigc/Domain.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="222" column="0" selection-start="5726" selection-end="5726" vertical-scroll-proportion="0.09030545" vertical-offset="3262" max-vertical-offset="5325">
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#4538#4546#0" expanded="true" />
+            <element signature="e#7824#7825#0" expanded="true" />
+            <element signature="e#7862#7863#0" expanded="true" />
+            <element signature="e#7946#7947#0" expanded="true" />
+            <element signature="e#7981#7982#0" expanded="true" />
+            <element signature="e#8085#8086#0" expanded="true" />
+            <element signature="e#8119#8120#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1069,7 +1067,6 @@
             <option name="proportions">
               <list>
                 <option value="0.3376168" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -1088,7 +1085,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited>Maven: com.google.code.crawler-commons:crawler-commons:0.3</last-edited>
+          <last-edited>Maven: org.slf4j:slf4j-api:1.7.5</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
