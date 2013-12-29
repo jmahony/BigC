@@ -1,9 +1,6 @@
 package com.joshmahony.bigc;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
+import com.mongodb.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.nodes.Document;
@@ -63,7 +60,7 @@ public class HTMLStore {
 
             BasicDBObject query = new BasicDBObject("url", url.toString());
 
-            BasicDBObject update = new BasicDBObject("$addToSet", html);
+            BasicDBObject update = new BasicDBObject("$push", new BasicDBObject("html", html));
 
             collection.update(query, update);
 
@@ -74,7 +71,7 @@ public class HTMLStore {
 
             query.append("url", url.toString());
 
-            query.append("html", html);
+            query.append("html", new BasicDBObject[] {html});
 
             collection.insert(query);
 
