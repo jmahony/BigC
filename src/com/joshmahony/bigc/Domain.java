@@ -1,6 +1,11 @@
 package com.joshmahony.bigc;
 
 import com.mongodb.*;
+import crawlercommons.fetcher.http.BaseHttpFetcher;
+import crawlercommons.fetcher.http.UserAgent;
+import crawlercommons.robots.BaseRobotRules;
+import crawlercommons.robots.RobotUtils;
+import crawlercommons.robots.SimpleRobotRulesParser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -15,22 +20,23 @@ import java.util.HashSet;
 public class Domain {
 
     /**
-     *
+     * The unix timestamp of the last time the crawler crawled this domain.
      */
-    private long lastCrawlTime = 0;
+    private long lastCrawlTime;
 
     /**
-     *
+     * The rate at which this domain is allowed to be crawled.
      */
     private long crawlRate;
 
     /**
-     *
+     * The URL of the domain (A bit confusing)
      */
     private URL url;
 
     /**
-     *
+     * Stores whether the queue is empty or not
+     * TODO: Do something when the queue is empty, possibly recrawl?
      */
     public boolean isEmpty;
 
@@ -40,18 +46,32 @@ public class Domain {
     public MongoClient connection;
 
     /**
-     * Creates an instance of log4j
+     * Stores an instance of log4j
      */
     private final Logger logger;
 
     /**
-     *
+     * Store the robots.txt rules
+     */
+    private BaseRobotRules rules;
+
+    /**
+     * Whether or not the robots.txt file has been fetched
+     */
+    private boolean hasRobots;
+
+    /**
+     * Takes in a domain name, a database connection and a settings object
      * @param _domain
      * @param _connection
      */
     public Domain(String _domain, MongoClient _connection, Object _settings) throws MalformedURLException {
 
         logger = LogManager.getLogger(Domain.class.getName());
+
+        lastCrawlTime = 0;
+
+        hasRobots = false;
 
         url = new URL(_domain);
 
@@ -65,9 +85,19 @@ public class Domain {
 
     }
 
+    /**
+     * Takes in a domain name and a database connection, the crawl rate is set to the default rate
+     * @param _domain
+     * @param _pool
+     * @throws MalformedURLException
+     */
     public Domain(String _domain, MongoClient _pool) throws MalformedURLException {
 
         logger = LogManager.getLogger(Domain.class.getName());
+
+        lastCrawlTime = 0;
+
+        hasRobots = false;
 
         url = new URL(_domain);
 
@@ -80,7 +110,7 @@ public class Domain {
     }
 
     /**
-     *
+     * Creates a domain queue in the database
      */
     private void createDomainQueue() {
 
@@ -112,10 +142,12 @@ public class Domain {
     }
 
     /**
-     * Enqueues a list of domains for the given domain
+     * Enqueues a list of domains for the domain
      * @param urls
      */
-    public synchronized void enqueueURLs(HashSet<String> urls) {
+    public void enqueueURLs(HashSet<String> urls) {
+
+        cleanURLs(urls);
 
         // Get the crawl queue collection
         DBCollection collection = getCollection(C.CRAWL_QUEUE_COLLECTION);
@@ -137,6 +169,36 @@ public class Domain {
 
     }
 
+    /**
+     * Removes entries from a set of urls according to robots.txt
+     * @param urls
+     * @return
+     */
+    private HashSet<String> cleanURLs(HashSet<String> urls) {
+
+        if (!hasRobots) getRobots();
+
+        // Don't enqueue URL if its disallowed in robots.txt
+        if (rules != null) {
+            HashSet<String> remove = new HashSet<String>();
+
+            for(String url : urls) {
+
+                URL u = makeURLFromPath(url);
+
+                boolean r = rules.isAllowed(u.toString());
+
+                if (!r) {
+                    remove.add(url);
+                }
+            }
+
+            urls.removeAll(remove);
+        }
+
+        return urls;
+
+    }
 
     /**
      * Returns a the next URL for an available domain
@@ -144,27 +206,39 @@ public class Domain {
      */
     public synchronized URL getNextURL() throws CrawlQueueEmptyException {
 
+        // Get the crawl queue collection
+        DBCollection collection = getCollection(C.CRAWL_QUEUE_COLLECTION);
+
+        // Fetch the document, this will retrieve the whole document and then pop one url from the queue
+        DBObject result = collection.findAndModify(new BasicDBObject("domain", getDomain()), new BasicDBObject("$pop", new BasicDBObject("queue", -1)));
+
+        // Get the domains queue
+        BasicDBList queue = (BasicDBList) result.get("queue");
+
+        // Check the queue isn't empty
+        if (queue.size() <= 0) {
+            isEmpty = true;
+            throw new CrawlQueueEmptyException("The crawl queue for " + getDomain() + " is empty!");
+        }
+
+        setLastCrawlTime(System.currentTimeMillis());
+
+        return makeURLFromPath(queue.get(0).toString());
+
+    }
+
+    /**
+     * Makes a url from the path
+     * @param path
+     * @return
+     */
+    private URL makeURLFromPath(String path) {
+
+        URL url = null;
+
         try {
 
-            // Get the crawl queue collection
-            DBCollection collection = getCollection(C.CRAWL_QUEUE_COLLECTION);
-
-            // Fetch the document, this will retrieve the whole document and then pop one url from the queue
-            DBObject result = collection.findAndModify(new BasicDBObject("domain", getDomain()), new BasicDBObject("$pop", new BasicDBObject("queue", -1)));
-
-            // Get the domains queue
-            BasicDBList queue = (BasicDBList) result.get("queue");
-
-            // Check the queue isn't empty
-            if (queue.size() <= 0) {
-                isEmpty = true;
-                throw new CrawlQueueEmptyException("The crawl queue for " + getDomain() + " is empty!");
-            }
-
-            setLastCrawlTime(System.currentTimeMillis());
-
-            // return the url
-            return new URL("http://" + getDomain() + queue.get(0));
+            return new URL("http://" + getDomain() + path);
 
         } catch (MalformedURLException e) {
 
@@ -172,8 +246,7 @@ public class Domain {
 
         }
 
-        return null;
-
+        return url;
     }
 
     /**
@@ -194,6 +267,35 @@ public class Domain {
     }
 
     /**
+     * Is this going to hang with every new domain created?!?!?!
+     * TODO: run this in its own thread or create a job to fetch robots.txt OR!! make the crawler fetch it on its first crawl.
+     */
+    private void getRobots() {
+
+        if (hasRobots) return;
+
+        logger.info("Fetching robots.txt for " + getDomain());
+
+        UserAgent ua = new UserAgent("BigC", "jm426@uni.brighton.ac.uk", "joshmahony.com");
+
+        BaseHttpFetcher bf = RobotUtils.createFetcher(ua, 1);
+
+        SimpleRobotRulesParser parser = new SimpleRobotRulesParser();
+
+        try {
+
+           rules = RobotUtils.getRobotRules(bf, parser, new URL(url.toString() + "/robots.txt"));
+
+           hasRobots = true;
+
+        } catch (MalformedURLException e) {
+
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
      * Checks to see if the domain already has a document in the database
      * @return
      */
@@ -208,7 +310,9 @@ public class Domain {
      * @return
      */
     public long getLastCrawlTime() {
+
         return lastCrawlTime;
+
     }
 
     /**
@@ -216,7 +320,9 @@ public class Domain {
      * @param m
      */
     private void setLastCrawlTime(long m) {
+
         lastCrawlTime = m;
+
     }
 
     /**
@@ -224,7 +330,9 @@ public class Domain {
      * @return
      */
     public long getCrawlRate() {
+
         return crawlRate;
+
     }
 
     /**
@@ -232,7 +340,9 @@ public class Domain {
      * @return
      */
     public String getDomain() {
+
         return url.getHost();
+
     }
 
 }
