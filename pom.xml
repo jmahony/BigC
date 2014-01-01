@@ -8,6 +8,15 @@
     <artifactId>BigC</artifactId>
     <version>0.1</version>
 
+    <distributionManagement>
+        <repository>
+            <id>bigc</id>
+            <name>BigC</name>
+            <url>http://joshmahony.com</url>
+            <layout>default</layout>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
 
         <dependency>
