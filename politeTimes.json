@@ -3,7 +3,8 @@
         "crawlRate" : 15000
     },
     "joshmahony.com" : {},
-    "www.sky.com" : {
+    "news.sky.com" : {
         "crawlRate" : 1000,
-     }
+     },
+     "www.thewhiskyexchange.com": {}
 }
