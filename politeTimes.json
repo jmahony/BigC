@@ -1,10 +1,12 @@
 {
-    "www.bbc.co.uk" : {
-        "crawlRate" : 15000
-    },
+    "www.bbc.co.uk" : {},
     "joshmahony.com" : {},
-    "news.sky.com" : {
-        "crawlRate" : 1000,
-     },
-     "www.thewhiskyexchange.com": {}
+    "news.sky.com" : {},
+    "www.nbcnews.com": {},
+    "uk.reuters.com": {},
+    "www.thewhiskyexchange.com": {},
+    "www.dailymail.co.uk": {},
+    "news.yahoo.com/": {},
+    "www.huffingtonpost.co.uk/": {},
+    "www.nytimes.com/": {}
 }

@@ -169,7 +169,13 @@ public class Domain {
 
                 boolean robotsAllowed = rules.isAllowed(u.toString());
 
-                boolean alreadyCrawled = hasDocument(u);
+                boolean alreadyCrawled = HTMLStore.checkDiscovered(u);
+
+                if (alreadyCrawled) {
+
+                    log.info(u.toString() + " not being added");
+
+                }
 
                 if (!robotsAllowed || alreadyCrawled || url.length() == 0) {
                     remove.add(url);

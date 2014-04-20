@@ -95,8 +95,6 @@ class Crawler implements Runnable {
 
                 crawlQueue.enqueueURLs(urls);
 
-                log.info("Storing HTML " + urlToCrawl.toString());
-
                 store.store(urlToCrawl, d);
 
 
@@ -121,6 +119,12 @@ class Crawler implements Runnable {
                 log.info(e.getMessage());
 
                 waitFor(C.DEFAULT_CRAWL_RATE);
+
+                continue;
+
+            } catch (URLDiscoveredException e) {
+
+                log.info("Attempting to add URL that has already been discovered, possbile bloom collision");
 
                 continue;
 

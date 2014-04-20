@@ -14,3 +14,7 @@ class NoAvailableDomainsException extends Exception {
     }
 
 }
+
+class URLDiscoveredException extends Throwable {
+    public URLDiscoveredException(String m) { super(m); }
+}

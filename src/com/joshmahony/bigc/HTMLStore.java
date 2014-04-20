@@ -5,6 +5,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import lombok.extern.log4j.Log4j2;
+import orestes.bloomfilter.redis.BloomFilterRedis;
 import org.jsoup.nodes.Document;
 
 import java.net.URL;
@@ -22,12 +23,20 @@ public class HTMLStore {
      */
     private static HTMLStore instance;
 
+    private static BloomFilterRedis<String> bloomFilter;
+
     /**
      *
      *  Singleton
      *
      */
-    protected HTMLStore() {}
+    protected HTMLStore() {
+
+        String IP = "localhost";
+
+        bloomFilter = new BloomFilterRedis<>(IP, 6379, 1437758757, 0.01);
+
+    }
 
     /**
      *
@@ -63,7 +72,12 @@ public class HTMLStore {
      * @param url
      * @param d
      */
-    public void store(URL url, Document d) {
+    public void store(URL url, Document d) throws URLDiscoveredException {
+
+        if (checkDiscovered(url))
+            throw new URLDiscoveredException("URL has already been seen");
+
+        log.info("Storing HTML " + url.toString());
 
         // Get the HTML Store collection
         DBCollection collection = getCollection(C.HTML_STORE_COLLECTION);
@@ -80,8 +94,35 @@ public class HTMLStore {
 
         collection.insert(query);
 
+        insertDiscovered(url);
+
     }
 
+    private synchronized void insertDiscovered(URL url) {
+
+        long start = System.currentTimeMillis();
+
+        bloomFilter.add(url.toString());
+
+        long end = System.currentTimeMillis();
+
+        log.info("Bloom filter insert took: " + (end - start) + "ms");
+
+    }
+
+    public synchronized static boolean checkDiscovered(URL url) {
+
+        long start = System.currentTimeMillis();
+
+        boolean contains = bloomFilter.contains(url.toString());
+
+        long end = System.currentTimeMillis();
+
+        log.info("Bloom filter check took: " + (end - start) + "ms");
+
+        return contains;
+
+    }
 
     /**
      * Returns a given collection
