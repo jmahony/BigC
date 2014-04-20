@@ -40,10 +40,6 @@ public class Domain {
      */
     public boolean isEmpty;
 
-    /**
-     * Store the connection connection to MongoDB
-     */
-    public MongoClient connection;
 
     /**
      * Store the robots.txt rules
@@ -58,17 +54,14 @@ public class Domain {
     /**
      * Takes in a domain name, a database connection and a settings object
      * @param _domain
-     * @param _connection
      */
-    public Domain(String _domain, MongoClient _connection, Object _settings) throws MalformedURLException {
+    public Domain(String _domain, Object _settings) throws MalformedURLException {
 
         lastCrawlTime = 0;
 
         hasRobots = false;
 
         url = new URL(_domain);
-
-        connection = _connection;
 
         SettingsParser sp = new SettingsParser(url, (JSONObject) _settings);
 
@@ -81,18 +74,15 @@ public class Domain {
     /**
      * Takes in a domain name and a database connection, the crawl rate is set to the default rate
      * @param _domain
-     * @param _pool
      * @throws MalformedURLException
      */
-    public Domain(String _domain, MongoClient _pool) throws MalformedURLException {
+    public Domain(String _domain) throws MalformedURLException {
 
         lastCrawlTime = 0;
 
         hasRobots = false;
 
         url = new URL(_domain);
-
-        connection = _pool;
 
         crawlRate = C.DEFAULT_CRAWL_RATE;
 
@@ -249,6 +239,8 @@ public class Domain {
      */
     public DBCollection getCollection(String collectionName) {
 
+        MongoClient connection = Mongo.getConnection();
+
         // Get a connection to the database
         DB db = connection.getDB(C.MONGO_DATABASE);
 
@@ -278,7 +270,7 @@ public class Domain {
         if (hasRobots) return;
 
         // Only get robots.txt if the domain is in the whitelist
-        if (!CrawlQueue.domainWhiteList.contains(getDomain())) return;
+        if (!CrawlQueue.getDomainWhiteList().contains(getDomain())) return;
 
         log.info("Fetching robots.txt for " + getDomain());
 

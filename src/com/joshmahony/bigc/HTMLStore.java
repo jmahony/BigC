@@ -8,7 +8,6 @@ import lombok.extern.log4j.Log4j2;
 import org.jsoup.nodes.Document;
 
 import java.net.URL;
-import java.net.UnknownHostException;
 
 @Log4j2
 public class HTMLStore {
@@ -16,14 +15,35 @@ public class HTMLStore {
     /**
      * Stores a connection to MongoDB
      */
-    private static MongoClient connection;
+    private final static MongoClient MONGO_CONNECTION = Mongo.getConnection();
 
     /**
-     *  Initialise the HTML Store
+     * Holds an instance to the singleton
      */
-    public HTMLStore() {
+    private static HTMLStore instance;
 
-        initMongoConnection();
+    /**
+     *
+     *  Singleton
+     *
+     */
+    protected HTMLStore() {}
+
+    /**
+     *
+     * Returns an instance of HTMLStore
+     *
+     * @return The single instance of the store
+     */
+    public static HTMLStore getInstance() {
+
+        if (instance == null) {
+
+            instance = new HTMLStore();
+
+        }
+
+        return instance;
 
     }
 
@@ -75,26 +95,6 @@ public class HTMLStore {
 
     }
 
-    /**
-     * Creare a connection to MongoDB
-     */
-    private void initMongoConnection() {
-
-        log.info("Initialising MongoDB connection connection... ");
-
-        try {
-
-            connection = new MongoClient(C.MONGO_HOST, C.MONGO_PORT);
-
-        } catch (UnknownHostException e) {
-
-            log.fatal("Could not connect to MongoDB server");
-
-            System.exit(-1);
-
-        }
-
-    }
 
     /**
      * Returns a given collection
@@ -104,7 +104,7 @@ public class HTMLStore {
     public DBCollection getCollection(String collectionName) {
 
         // Get a connection to the database
-        DB db = connection.getDB(C.MONGO_DATABASE);
+        DB db = MONGO_CONNECTION.getDB(C.MONGO_DATABASE);
 
         // Get the crawl queue collection
         DBCollection collection = db.getCollection(collectionName);

@@ -2,6 +2,8 @@ package com.joshmahony.bigc;
 
 import lombok.extern.log4j.Log4j2;
 
+import java.net.UnknownHostException;
+
 /**
  * User: Josh Mahony (jm426@uni.brighton.ac.uk)
  * Date: 13/11/2013
@@ -20,19 +22,21 @@ public class CrawlerDispatcher {
      */
     private CrawlQueue crawlQueue;
 
-
-    /**
-     *
-     */
-    private HTMLStore store;
-
     /**
      *
      * @param args
      */
     public static void main(String args[]) {
 
-        new CrawlerDispatcher(args);
+        try {
+
+            new CrawlerDispatcher(args);
+
+        } catch (UnknownHostException e) {
+
+            log.fatal("Could not connect to MongoDB");
+
+        }
 
     }
 
@@ -40,15 +44,15 @@ public class CrawlerDispatcher {
      *
      * @param args
      */
-    public CrawlerDispatcher(String args[]) {
+    public CrawlerDispatcher(String args[]) throws UnknownHostException {
+
+        log.info("Initialising MongoDB connection connection... ");
 
         crawlers  = new Crawler[C.NUM_THREADS];
 
         log.info("Crawler dispatcher launching");
 
         crawlQueue = new CrawlQueue(args[0]);
-
-        store = new HTMLStore();
 
         dispatch();
 
@@ -67,6 +71,8 @@ public class CrawlerDispatcher {
      * Create all of the crawler threads
      */
     public void dispatch() {
+
+        HTMLStore store = HTMLStore.getInstance();
 
         for (int i = 0; i < C.NUM_THREADS; i++) {
 

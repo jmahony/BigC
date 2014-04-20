@@ -1,12 +1,11 @@
 package com.joshmahony.bigc;
 
-import com.mongodb.MongoClient;
+import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.json.simple.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,14 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CrawlQueue {
 
     /**
-     * Store the connection connection to MongoDB
-     */
-    public MongoClient connection;
-
-    /**
      * Stores a list of domains we're allowed to crawl
      */
-    public static HashSet<String> domainWhiteList;
+    private @Getter static HashSet<String> domainWhiteList;
 
     /**
      * Used to store an instance of the queue iterator, so we can resume the search after a URL is returned.
@@ -38,7 +32,7 @@ public class CrawlQueue {
     /**
      * This stores a list of domains we can crawl TODO: extend this to include a cached version of robots.txt
      */
-    ConcurrentHashMap<String, Domain> domainList;
+    private ConcurrentHashMap<String, Domain> domainList;
 
     /**
      *
@@ -52,30 +46,7 @@ public class CrawlQueue {
 
         queueIterator = null;
 
-        initMongoConnection();
-
         initPoliteTimes(seedPath);
-
-    }
-
-    /**
-     * Creare a connection to mongo
-     */
-    private void initMongoConnection() {
-
-        log.info("Initialising MongoDB connection connection... ");
-
-        try {
-
-            connection = new MongoClient(C.MONGO_HOST, C.MONGO_PORT);
-
-        } catch (UnknownHostException e) {
-
-            log.fatal("Could not connect to MongoDB server");
-
-            System.exit(-1);
-
-        }
 
     }
 
@@ -97,7 +68,7 @@ public class CrawlQueue {
 
             try {
 
-                Domain d = new Domain("http://" + entry.getKey().toString(), connection, entry.getValue());
+                Domain d = new Domain("http://" + entry.getKey().toString(), entry.getValue());
 
                 addToDomainWhiteList(d);
 
@@ -178,7 +149,7 @@ public class CrawlQueue {
 
                 if (!domainList.containsKey(domain.getHost())) {
 
-                    domainList.put(((URL) entry.getKey()).getHost(), new Domain(domain.toString(), connection));
+                    domainList.put(((URL) entry.getKey()).getHost(), new Domain(domain.toString()));
                 }
 
                 domainList.get(domain.getHost()).enqueueURLs((HashSet<String>) entry.getValue());

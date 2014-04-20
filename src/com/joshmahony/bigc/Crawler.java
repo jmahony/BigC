@@ -24,22 +24,22 @@ class Crawler implements Runnable {
     /**
      * Stores a reference the crawler dispatch object
      */
-    private CrawlerDispatcher crawlerDispatcher;
+    private static CrawlerDispatcher crawlerDispatcher = null;
 
     /**
      * Stores a reference to the crawl queue
      */
-    private CrawlQueue crawlQueue;
+    private static CrawlQueue crawlQueue;
+
+    /**
+     * Stores a reference to the HTML Store
+     */
+    private static HTMLStore store;
 
     /**
      * Flag for the while loop
      */
     private boolean running = true;
-
-    /**
-     * Stores a reference to the HTML Store
-     */
-    private HTMLStore store;
 
     /**
      *
@@ -49,11 +49,15 @@ class Crawler implements Runnable {
      */
     public Crawler(CrawlerDispatcher cd, CrawlQueue cq, HTMLStore s) {
 
-        crawlerDispatcher = cd;
+        if (crawlerDispatcher == null) {
 
-        crawlQueue = cq;
+            crawlerDispatcher = cd;
 
-        store = s;
+            crawlQueue = cq;
+
+            store = s;
+
+        }
 
     }
 
