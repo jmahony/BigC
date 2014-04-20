@@ -147,12 +147,17 @@ public class CrawlQueue {
 
             try {
 
-                if (!domainList.containsKey(domain.getHost())) {
+                if (domainWhiteList.contains(domain.getHost())) {
 
-                    domainList.put(((URL) entry.getKey()).getHost(), new Domain(domain.toString()));
+                    if (!domainList.containsKey(domain.getHost())) {
+
+                        domainList.put(((URL) entry.getKey()).getHost(), new Domain(domain.toString()));
+
+                    }
+
+                    domainList.get(domain.getHost()).enqueueURLs((HashSet<String>) entry.getValue());
+
                 }
-
-                domainList.get(domain.getHost()).enqueueURLs((HashSet<String>) entry.getValue());
 
             } catch (MalformedURLException e) {
 
