@@ -1,7 +1,6 @@
 package com.joshmahony.bigc;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.json.simple.JSONObject;
 
 import java.net.URL;
@@ -9,8 +8,8 @@ import java.net.URL;
 /**
  * Created by joshmahony on 18/12/2013.
  */
+@Log4j2
 public class SettingsParser {
-
 
     /**
      *
@@ -19,17 +18,10 @@ public class SettingsParser {
 
     /**
      *
-     */
-    private final Logger logger;
-
-    /**
-     *
      * @param _domain
      * @param _object
      */
     public SettingsParser(URL _domain, JSONObject _object) {
-
-        logger = LogManager.getLogger(SettingsParser.class.getName());
 
 
         if (_object.containsKey("crawlRate")) {
@@ -38,7 +30,7 @@ public class SettingsParser {
 
             if (cr < C.MIN_CRAWL_RATE) {
 
-                logger.warn("Crawl rate for " + _domain + " is too low, setting to min crawl rate: " + C.MIN_CRAWL_RATE);
+                log.warn("Crawl rate for " + _domain + " is too low, setting to min crawl rate: " + C.MIN_CRAWL_RATE);
 
                 crawlRate = C.MIN_CRAWL_RATE;
 

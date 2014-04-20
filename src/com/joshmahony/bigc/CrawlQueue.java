@@ -1,19 +1,22 @@
 package com.joshmahony.bigc;
 
-import com.mongodb.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.mongodb.MongoClient;
+import lombok.extern.log4j.Log4j2;
 import org.json.simple.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by joshmahony on 15/12/2013.
  */
+@Log4j2
 public class CrawlQueue {
 
     /**
@@ -25,11 +28,6 @@ public class CrawlQueue {
      * Stores a list of domains we're allowed to crawl
      */
     public static HashSet<String> domainWhiteList;
-
-    /**
-     * Creates an instance of log4j
-     */
-    private final Logger logger;
 
     /**
      * Used to store an instance of the queue iterator, so we can resume the search after a URL is returned.
@@ -48,8 +46,6 @@ public class CrawlQueue {
      */
     public CrawlQueue(String seedPath) {
 
-        logger = LogManager.getLogger(CrawlQueue.class.getName());
-
         domainWhiteList = new HashSet();
 
         domainList = new ConcurrentHashMap();
@@ -67,7 +63,7 @@ public class CrawlQueue {
      */
     private void initMongoConnection() {
 
-        logger.info("Initialising MongoDB connection connection... ");
+        log.info("Initialising MongoDB connection connection... ");
 
         try {
 
@@ -75,7 +71,7 @@ public class CrawlQueue {
 
         } catch (UnknownHostException e) {
 
-            logger.fatal("Could not connect to MongoDB server");
+            log.fatal("Could not connect to MongoDB server");
 
             System.exit(-1);
 
@@ -107,7 +103,7 @@ public class CrawlQueue {
 
             } catch (MalformedURLException e) {
 
-                logger.fatal("Malformed URL " + entry.getKey().toString());
+                log.fatal("Malformed URL " + entry.getKey().toString());
 
                 System.exit(0);
 
@@ -123,7 +119,7 @@ public class CrawlQueue {
      */
     private void addToDomainList(Domain d) {
 
-        logger.debug("Adding to domain list: " + d.getDomain());
+        log.debug("Adding to domain list: " + d.getDomain());
 
         domainList.put(d.getDomain(), d);
 
@@ -135,7 +131,7 @@ public class CrawlQueue {
      */
     private void addToDomainWhiteList(Domain d) {
 
-        logger.debug("Adding to domain white list: " + d.getDomain());
+        log.debug("Adding to domain white list: " + d.getDomain());
 
         domainWhiteList.add(d.getDomain());
 
@@ -163,7 +159,7 @@ public class CrawlQueue {
 
             } catch (MalformedURLException e) {
 
-                logger.warn("Malformed URL");
+                log.warn("Malformed URL");
 
             }
 
@@ -189,7 +185,7 @@ public class CrawlQueue {
 
             } catch (MalformedURLException e) {
 
-                logger.warn("Malformed URL " + entry.getKey().toString());
+                log.warn("Malformed URL " + entry.getKey().toString());
 
             }
 

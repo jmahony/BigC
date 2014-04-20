@@ -1,13 +1,16 @@
 package com.joshmahony.bigc;
 
-import com.mongodb.*;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.MongoClient;
+import lombok.extern.log4j.Log4j2;
 import org.jsoup.nodes.Document;
 
 import java.net.URL;
 import java.net.UnknownHostException;
 
+@Log4j2
 public class HTMLStore {
 
     /**
@@ -16,16 +19,9 @@ public class HTMLStore {
     private static MongoClient connection;
 
     /**
-     * Creates an instance of log4j
-     */
-    private final Logger logger;
-
-    /**
      *  Initialise the HTML Store
      */
     public HTMLStore() {
-
-        logger = LogManager.getLogger(HTMLStore.class.getName());
 
         initMongoConnection();
 
@@ -84,7 +80,7 @@ public class HTMLStore {
      */
     private void initMongoConnection() {
 
-        logger.info("Initialising MongoDB connection connection... ");
+        log.info("Initialising MongoDB connection connection... ");
 
         try {
 
@@ -92,7 +88,7 @@ public class HTMLStore {
 
         } catch (UnknownHostException e) {
 
-            logger.fatal("Could not connect to MongoDB server");
+            log.fatal("Could not connect to MongoDB server");
 
             System.exit(-1);
 

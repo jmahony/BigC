@@ -1,7 +1,6 @@
 package com.joshmahony.bigc;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.jsoup.Connection;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -19,6 +18,7 @@ import java.util.HashSet;
  * Time: 19:14
  * To change this template use File | Settings | File Templates.
  */
+@Log4j2
 class Crawler implements Runnable {
 
     /**
@@ -30,11 +30,6 @@ class Crawler implements Runnable {
      * Stores a reference to the crawl queue
      */
     private CrawlQueue crawlQueue;
-
-    /**
-     * Stores an instance of log4j
-     */
-    private final Logger logger;
 
     /**
      * Flag for the while loop
@@ -53,8 +48,6 @@ class Crawler implements Runnable {
      * @param s
      */
     public Crawler(CrawlerDispatcher cd, CrawlQueue cq, HTMLStore s) {
-
-        logger = LogManager.getLogger(Crawler.class);
 
         crawlerDispatcher = cd;
 
@@ -79,16 +72,16 @@ class Crawler implements Runnable {
     @Override
     public void run() {
 
-        logger.info("I'm alive!!");
+        log.info("I'm alive!!");
 
         while(running) {
             try {
 
-                logger.debug("Fetching next URL to crawl...");
+                log.debug("Fetching next URL to crawl...");
 
                 URL urlToCrawl = crawlQueue.getNextURL();
 
-                logger.info("Attempting to crawl " + urlToCrawl.toString());
+                log.info("Attempting to crawl " + urlToCrawl.toString());
 
                 Connection.Response res = Jsoup.connect(urlToCrawl.toString()).userAgent(C.USER_AGENT).referrer(C.REFERRER).header("Accept", "text/html").execute();
 
@@ -98,22 +91,22 @@ class Crawler implements Runnable {
 
                 crawlQueue.enqueueURLs(urls);
 
-                logger.info("Storing HTML " + urlToCrawl.toString());
+                log.info("Storing HTML " + urlToCrawl.toString());
 
                 store.store(urlToCrawl, d);
 
 
             } catch(HttpStatusException e) {
 
-                logger.warn(e.getMessage());
+                log.warn(e.getMessage());
 
             } catch (IOException e) {
 
-                logger.error(e.getMessage());
+                log.error(e.getMessage());
 
             } catch (NoAvailableDomainsException e) {
 
-                logger.info(e.getMessage());
+                log.info(e.getMessage());
 
                 waitFor(C.DEFAULT_CRAWL_RATE);
 
@@ -121,7 +114,7 @@ class Crawler implements Runnable {
 
             } catch (CrawlQueueEmptyException e) {
 
-                logger.info(e.getMessage());
+                log.info(e.getMessage());
 
                 waitFor(C.DEFAULT_CRAWL_RATE);
 
@@ -147,7 +140,7 @@ class Crawler implements Runnable {
 
         } catch (InterruptedException e) {
 
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
 
         }
 

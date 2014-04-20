@@ -1,12 +1,13 @@
 package com.joshmahony.bigc;
 
-import org.apache.logging.log4j.*;
+import lombok.extern.log4j.Log4j2;
 
 /**
  * User: Josh Mahony (jm426@uni.brighton.ac.uk)
  * Date: 13/11/2013
  * Time: 19:04
  */
+@Log4j2
 public class CrawlerDispatcher {
 
     /**
@@ -19,10 +20,6 @@ public class CrawlerDispatcher {
      */
     private CrawlQueue crawlQueue;
 
-    /**
-     * Creates an instance of log4j
-     */
-    private final Logger logger;
 
     /**
      *
@@ -45,11 +42,9 @@ public class CrawlerDispatcher {
      */
     public CrawlerDispatcher(String args[]) {
 
-        logger = LogManager.getLogger(CrawlerDispatcher.class.getName());
-
         crawlers  = new Crawler[C.NUM_THREADS];
 
-        logger.info("Crawler dispatcher launching");
+        log.info("Crawler dispatcher launching");
 
         crawlQueue = new CrawlQueue(args[0]);
 

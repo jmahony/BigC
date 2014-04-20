@@ -6,8 +6,7 @@ import crawlercommons.fetcher.http.UserAgent;
 import crawlercommons.robots.BaseRobotRules;
 import crawlercommons.robots.RobotUtils;
 import crawlercommons.robots.SimpleRobotRulesParser;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.json.simple.JSONObject;
 
 import java.net.MalformedURLException;
@@ -17,6 +16,7 @@ import java.util.HashSet;
 /**
  * Created by joshmahony on 16/12/2013.
  */
+@Log4j2
 public class Domain {
 
     /**
@@ -46,11 +46,6 @@ public class Domain {
     public MongoClient connection;
 
     /**
-     * Stores an instance of log4j
-     */
-    private final Logger logger;
-
-    /**
      * Store the robots.txt rules
      */
     private BaseRobotRules rules;
@@ -66,8 +61,6 @@ public class Domain {
      * @param _connection
      */
     public Domain(String _domain, MongoClient _connection, Object _settings) throws MalformedURLException {
-
-        logger = LogManager.getLogger(Domain.class.getName());
 
         lastCrawlTime = 0;
 
@@ -93,8 +86,6 @@ public class Domain {
      */
     public Domain(String _domain, MongoClient _pool) throws MalformedURLException {
 
-        logger = LogManager.getLogger(Domain.class.getName());
-
         lastCrawlTime = 0;
 
         hasRobots = false;
@@ -117,13 +108,13 @@ public class Domain {
         // Make sure the domain doesn't already have a document
         if (hasQueueInDatabase()){
 
-            logger.debug(getDomain() + " Already has domain queue in database");
+            log.debug(getDomain() + " Already has domain queue in database");
 
             return;
 
         }
 
-        logger.debug("Creating new domain queue for " + getDomain() + " in database");
+        log.debug("Creating new domain queue for " + getDomain() + " in database");
 
         // Get the crawl queue collection
         DBCollection collection = getCollection(C.CRAWL_QUEUE_COLLECTION);
@@ -244,7 +235,7 @@ public class Domain {
 
         } catch (MalformedURLException e) {
 
-            logger.warn("A malformed URL was added to the queue, URL: " + e.getMessage());
+            log.warn("A malformed URL was added to the queue, URL: " + e.getMessage());
 
         }
 
@@ -289,7 +280,7 @@ public class Domain {
         // Only get robots.txt if the domain is in the whitelist
         if (!CrawlQueue.domainWhiteList.contains(getDomain())) return;
 
-        logger.info("Fetching robots.txt for " + getDomain());
+        log.info("Fetching robots.txt for " + getDomain());
 
         UserAgent ua = new UserAgent("BigC", "jm426@uni.brighton.ac.uk", "joshmahony.com");
 

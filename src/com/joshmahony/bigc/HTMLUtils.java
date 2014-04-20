@@ -1,7 +1,6 @@
 package com.joshmahony.bigc;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -13,10 +12,8 @@ import java.util.HashSet;
 /**
  * Created by joshmahony on 18/12/2013.
  */
+@Log4j2
 public class HTMLUtils {
-
-
-    private static Logger logger = LogManager.getLogger(CrawlQueue.class.getName());
 
     /**
          * Extracts the URLs from a Jsoup document and returns then as a HashMap with the URL as key and URL object as
@@ -45,7 +42,7 @@ public class HTMLUtils {
                 } catch (MalformedURLException e) {
 
                     // Doesnt really matter if the URL is malformed, just log that we have encountered one
-                    logger.debug("Malformed URL: " + e.getMessage());
+                    log.debug("Malformed URL: " + e.getMessage());
 
                 }
 
