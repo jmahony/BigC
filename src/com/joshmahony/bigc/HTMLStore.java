@@ -68,30 +68,17 @@ public class HTMLStore {
         // Get the HTML Store collection
         DBCollection collection = getCollection(C.HTML_STORE_COLLECTION);
 
-        // Create an object to store the HTML, key as the current timestamp, the HTML as the value
-        BasicDBObject html = new BasicDBObject((new Long(System.currentTimeMillis())).toString(), d.toString());
+        Long now = System.currentTimeMillis();
 
-        // If the URL already has an entry, append it to the array of entries
-        if (hasURLInDatabase(url)) {
+        BasicDBObject query = new BasicDBObject();
 
-            BasicDBObject query = new BasicDBObject("url", url.toString());
+        query.append("url", url.toString());
 
-            BasicDBObject update = new BasicDBObject("$push", new BasicDBObject("html", html));
+        query.append("time", now.toString());
 
-            collection.update(query, update);
+        query.append("html", d.toString());
 
-        // Else add a new entry
-        } else {
-
-            BasicDBObject query = new BasicDBObject();
-
-            query.append("url", url.toString());
-
-            query.append("html", new BasicDBObject[] {html});
-
-            collection.insert(query);
-
-        }
+        collection.insert(query);
 
     }
 
