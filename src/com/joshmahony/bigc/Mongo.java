@@ -1,5 +1,7 @@
 package com.joshmahony.bigc;
 
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import lombok.extern.log4j.Log4j2;
 
@@ -36,6 +38,27 @@ public class Mongo {
         }
 
         return mongoConnection;
+
+    }
+
+    /**
+     *
+     * Returns a given collection
+     *
+     * @param collectionName the collection to get
+     * @return the collection
+     */
+    public static DBCollection getCollection(String collectionName) {
+
+        MongoClient connection = getConnection();
+
+        // Get a connection to the database
+        DB db = connection.getDB(C.MONGO_DATABASE);
+
+        // Get the crawl queue collection
+        DBCollection collection = db.getCollection(collectionName);
+
+        return collection;
 
     }
 

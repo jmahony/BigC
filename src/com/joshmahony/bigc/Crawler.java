@@ -85,7 +85,11 @@ class Crawler implements Runnable {
 
                 log.info("Attempting to crawl " + urlToCrawl.toString());
 
-                Connection.Response res = Jsoup.connect(urlToCrawl.toString()).userAgent(C.USER_AGENT).referrer(C.REFERRER).header("Accept", "text/html").execute();
+                Connection.Response res = Jsoup.connect(urlToCrawl.toString())
+                        .userAgent(C.USER_AGENT)
+                        .referrer(C.REFERRER)
+                        .header("Accept", "text/html")
+                        .execute();
 
                 Document d = res.parse();
 
@@ -94,7 +98,6 @@ class Crawler implements Runnable {
                 crawlQueue.enqueueURLs(urls);
 
                 store.store(urlToCrawl, d);
-
 
             } catch(HttpStatusException e) {
 

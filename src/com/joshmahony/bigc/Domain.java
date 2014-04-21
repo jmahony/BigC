@@ -6,8 +6,9 @@ import crawlercommons.fetcher.http.UserAgent;
 import crawlercommons.robots.BaseRobotRules;
 import crawlercommons.robots.RobotUtils;
 import crawlercommons.robots.SimpleRobotRulesParser;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
-import org.json.simple.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,23 +23,23 @@ public class Domain {
     /**
      * The unix timestamp of the last time the crawler crawled this domain.
      */
-    private long lastCrawlTime;
+    private @Getter @Setter long lastCrawlTime;
 
     /**
      * The rate at which this domain is allowed to be crawled.
      */
-    private long crawlRate;
+    private DomainSettings settings;
 
     /**
      * The domainName
      */
-    private URL domainName;
+    private URL domain;
 
     /**
      * Stores whether the queue is empty or not
      * TODO: Do something when the queue is empty, possibly recrawl?
      */
-    public boolean isEmpty;
+    private @Getter boolean isEmpty;
 
     /**
      * Store the robots.txt rules
@@ -50,25 +51,24 @@ public class Domain {
      */
     private boolean hasRobots;
 
+
     /**
      *
      * Takes in a domain name, a database connection and a settings object
      *
-     * @param domainName the domain name
+     * @param domain the domains url
      * @param settings the settings for the domain
      * @throws MalformedURLException if invalid domain
      */
-    public Domain(String domainName, Object settings) throws MalformedURLException {
+    public Domain(URL domain, DomainSettings settings) throws MalformedURLException {
 
         lastCrawlTime = 0;
 
         hasRobots = false;
 
-        this.domainName = new URL(domainName);
+        this.domain = domain;
 
-        DomainSettings sp = new DomainSettings(this.domainName, (JSONObject) settings);
-
-        crawlRate = sp.getCrawlRate();
+        this.settings = settings;
 
         createDomainQueue();
 
@@ -76,28 +76,21 @@ public class Domain {
 
     /**
      *
-     * Takes in a domain name and a database connection, the crawl rate is set to the default
-     * rate
+     * Takes the domain name and creates a default
      *
-     * @param domainName the domain name
-     * @throws MalformedURLException if invalid domain
+     * @param domain the domains url
+     * @throws MalformedURLException
      */
-    public Domain(String domainName) throws MalformedURLException {
+    public Domain(URL domain) throws MalformedURLException {
 
-        lastCrawlTime = 0;
-
-        hasRobots = false;
-
-        this.domainName = new URL(domainName);
-
-        crawlRate = C.DEFAULT_CRAWL_RATE;
-
-        createDomainQueue();
+        this(domain, new DomainSettings(domain));
 
     }
 
     /**
+     *
      * Creates a domain queue in the database
+     *
      */
     private void createDomainQueue() {
 
@@ -112,8 +105,7 @@ public class Domain {
 
         log.debug("Creating new domain queue for " + getDomain() + " in database");
 
-        // Get the crawl queue collection
-        DBCollection collection = getCollection(C.CRAWL_QUEUE_COLLECTION);
+        DBCollection collection = Mongo.getCollection(C.CRAWL_QUEUE_COLLECTION);
 
         // Create the domainQueue
         BasicDBObject domainQueue = new BasicDBObject();
@@ -129,15 +121,17 @@ public class Domain {
     }
 
     /**
+     *
      * Enqueues a list of domains for the domain
-     * @param urls
+     *
+     * @param urls URLs to queue
      */
     public void enqueueURLs(HashSet<String> urls) {
 
         cleanURLs(urls);
 
         // Get the crawl queue collection
-        DBCollection collection = getCollection(C.CRAWL_QUEUE_COLLECTION);
+        DBCollection collection = Mongo.getCollection(C.CRAWL_QUEUE_COLLECTION);
 
         // Build the query
         BasicDBObject domainQueueQuery = new BasicDBObject("domain", getDomain());
@@ -157,9 +151,12 @@ public class Domain {
     }
 
     /**
-     * Removes entries from a set of urls according to robots.txt
-     * @param urls
-     * @return
+     *
+     * Removes entries from a set of urls according to robots.txt and whether
+     * they have already been crawled
+     *
+     * @param urls URLs to clean
+     * @return the cleans set of URLs
      */
     private HashSet<String> cleanURLs(HashSet<String> urls) {
 
@@ -184,11 +181,15 @@ public class Domain {
                 }
 
                 if (!robotsAllowed || alreadyCrawled || url.length() == 0) {
+
                     remove.add(url);
+
                 }
+
             }
 
             urls.removeAll(remove);
+
         }
 
         return urls;
@@ -196,24 +197,32 @@ public class Domain {
     }
 
     /**
+     *
      * Returns a the next URL for an available domain
-     * @return URL || null
+     *
+     * @return the next URL
      */
     public synchronized URL getNextURL() throws CrawlQueueEmptyException {
 
-        // Get the crawl queue collection
-        DBCollection collection = getCollection(C.CRAWL_QUEUE_COLLECTION);
+        DBCollection collection = Mongo.getCollection(C.CRAWL_QUEUE_COLLECTION);
 
-        // Fetch the document, this will retrieve the whole document and then pop one domainName from the queue
-        DBObject result = collection.findAndModify(new BasicDBObject("domain", getDomain()), new BasicDBObject("$pop", new BasicDBObject("queue", -1)));
+        // Fetch the document, this will retrieve the whole document and
+        // then pop one domainName from the queue
+        DBObject result = collection.findAndModify(
+                new BasicDBObject("domain", getDomain()), // Find this
+                new BasicDBObject("$pop", new BasicDBObject("queue", -1)) // Do this
+        );
 
         // Get the domains queue
         BasicDBList queue = (BasicDBList) result.get("queue");
 
         // Check the queue isn't empty
         if (queue.size() <= 0) {
+
             isEmpty = true;
+
             throw new CrawlQueueEmptyException("The crawl queue for " + getDomain() + " is empty!");
+
         }
 
         setLastCrawlTime(System.currentTimeMillis());
@@ -223,9 +232,11 @@ public class Domain {
     }
 
     /**
-     * Makes a domainName from the path
-     * @param path
-     * @return
+     *
+     * Rebuilds a url from the path
+     *
+     * @param path the path
+     * @return the URL
      */
     private URL makeURLFromPath(String path) {
 
@@ -242,40 +253,15 @@ public class Domain {
         }
 
         return url;
-    }
-
-    /**
-     * Returns a given collection
-     * @param collectionName
-     * @return
-     */
-    public DBCollection getCollection(String collectionName) {
-
-        MongoClient connection = Mongo.getConnection();
-
-        // Get a connection to the database
-        DB db = connection.getDB(C.MONGO_DATABASE);
-
-        // Get the crawl queue collection
-        DBCollection collection = db.getCollection(collectionName);
-
-        return collection;
-
-    }
-
-    public boolean hasDocument(URL url) {
-
-        DBCollection collection = getCollection(C.HTML_STORE_COLLECTION);
-
-        DBCursor o = collection.find(new BasicDBObject("domainName", url.toString()));
-
-        return o.size() > 0;
 
     }
 
     /**
+     *
      * Is this going to hang with every new domain created?!?!?!
-     * TODO: run this in its own thread or create a job to fetch robots.txt OR!! make the crawler fetch it on its first crawl.
+     * TODO: run this in its own thread or create a job to fetch robots.txt OR!!
+     * TODO: make the crawler fetch it on its first crawl.
+     *
      */
     private void getRobots() {
 
@@ -294,7 +280,7 @@ public class Domain {
 
         try {
 
-           rules = RobotUtils.getRobotRules(bf, parser, new URL(domainName.toString() + "/robots.txt"));
+           rules = RobotUtils.getRobotRules(bf, parser, new URL(domain.toString() + "/robots.txt"));
 
            hasRobots = true;
 
@@ -306,52 +292,44 @@ public class Domain {
     }
 
     /**
+     *
      * Checks to see if the domain already has a document in the database
-     * @return
+     *
+     * @return true if the domain has a queue in the database
      */
     private synchronized boolean hasQueueInDatabase() {
 
-        return getCollection(C.CRAWL_QUEUE_COLLECTION).find(new BasicDBObject("domain", getDomain())).limit(1).size() > 0;
+        DBCollection collection = Mongo.getCollection(C.CRAWL_QUEUE_COLLECTION);
+
+        DBObject query = new BasicDBObject("domain", getDomain());
+
+        DBCursor cursor = collection.find(query).limit(1);
+
+        return cursor.size() > 0;
 
     }
 
     /**
      *
-     * @return
-     */
-    public long getLastCrawlTime() {
-
-        return lastCrawlTime;
-
-    }
-
-    /**
-     *
-     * @param m
-     */
-    private void setLastCrawlTime(long m) {
-
-        lastCrawlTime = m;
-
-    }
-
-    /**
      * Get the crawl rate for a domain
-     * @return
+     *
+     * @return the crawl rate in milliseconds
      */
     public long getCrawlRate() {
 
-        return crawlRate;
+        return settings.getCrawlRate();
 
     }
 
     /**
      *
-     * @return
+     * Returns the domain
+     *
+     * @return the domain
      */
     public String getDomain() {
 
-        return domainName.getHost();
+        return domain.getHost();
 
     }
 

@@ -59,16 +59,18 @@ public class CrawlQueue {
         // Load the polite times JSON file
         JSONObject times = FileLoader.fileToJSON(path);
 
-        Iterator i = times.entrySet().iterator();
-
         // Iterate over each domain in the polite times
-        while (i.hasNext()) {
+        for (Object o : times.entrySet()) {
 
-            Map.Entry entry = (Map.Entry) i.next();
+            Map.Entry entry = (Map.Entry) o;
 
             try {
 
-                Domain d = new Domain("http://" + entry.getKey().toString(), entry.getValue());
+                URL url = new URL("http://" + entry.getKey().toString());
+
+                DomainSettings settings = new DomainSettings(url, (JSONObject) entry.getValue());
+
+                Domain d = new Domain(url, settings);
 
                 addToDomainWhiteList(d);
 
@@ -136,12 +138,10 @@ public class CrawlQueue {
 
         }
 
-        Iterator itr = map.entrySet().iterator();
-
-        while (itr.hasNext()) {
+        for (Object o : map.entrySet()) {
 
             // Get the next domain
-            Map.Entry entry = (Map.Entry) itr.next();
+            Map.Entry entry = (Map.Entry) o;
 
             URL domain = (URL) entry.getKey();
 
@@ -151,7 +151,7 @@ public class CrawlQueue {
 
                     if (!domainList.containsKey(domain.getHost())) {
 
-                        domainList.put(((URL) entry.getKey()).getHost(), new Domain(domain.toString()));
+                        domainList.put(((URL) entry.getKey()).getHost(), new Domain(domain));
 
                     }
 
@@ -209,7 +209,7 @@ public class CrawlQueue {
 
             if (!domainWhiteList.contains(d.getDomain()) && C.ONLY_CRAWL_WHITELIST) continue;
 
-            if (d.isEmpty) continue;
+            if (d.isEmpty()) continue;
 
             // Get the last time the domain was crawled
             long lastCrawlTimestamp = d.getLastCrawlTime();

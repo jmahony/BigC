@@ -49,4 +49,10 @@ public class DomainSettings {
 
     }
 
+    public DomainSettings(URL domain) {
+
+        this(domain, new JSONObject());
+
+    }
+
 }
