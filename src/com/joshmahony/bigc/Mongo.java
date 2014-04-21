@@ -8,7 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import java.net.UnknownHostException;
 
 /**
- * Created by joshmahony on 20/04/2014.
+ * Used to hold the mongo connection
  */
 @Log4j2
 public class Mongo {
@@ -18,8 +18,19 @@ public class Mongo {
      */
     private static MongoClient mongoConnection = null;
 
+    /**
+     *
+     * Singleton
+     *
+     */
     protected Mongo() {}
 
+    /**
+     *
+     * Returns the MongoDB connection instance
+     *
+     * @return the connection
+     */
     public static MongoClient getConnection() {
 
         if (mongoConnection == null) {
@@ -31,6 +42,8 @@ public class Mongo {
             } catch (UnknownHostException e) {
 
                 log.fatal("Could not connect to MongoDB");
+
+                System.exit(0);
 
             }
 

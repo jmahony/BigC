@@ -13,7 +13,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by joshmahony on 15/12/2013.
+ * The main frontier of the crawler, it is responsible for only returning
+ * URLs that it would be polite to crawl
  */
 @Log4j2
 public class CrawlQueue {
@@ -36,7 +37,9 @@ public class CrawlQueue {
 
     /**
      *
-     * @param seedPath
+     * Constructor
+     *
+     * @param seedPath The path of the seed list
      */
     public CrawlQueue(String seedPath) {
 
@@ -51,8 +54,10 @@ public class CrawlQueue {
     }
 
     /**
+     *
      * Load the polite times JSON file
-     * @param path
+     *
+     * @param path path to the JSON
      */
     private void initPoliteTimes(String path) {
 
@@ -88,7 +93,9 @@ public class CrawlQueue {
 
     /**
      *
-     * @param d
+     * Adds a domain to the list to crawl
+     *
+     * @param d the domain object
      */
     private void addToDomainList(Domain d) {
 
@@ -100,7 +107,9 @@ public class CrawlQueue {
 
     /**
      *
-     * @param d
+     * Adds a domain to the white list
+     *
+     * @param d the domain object
      */
     private void addToDomainWhiteList(Domain d) {
 
@@ -113,12 +122,14 @@ public class CrawlQueue {
     }
 
     /**
-     * Enqueues a list of domains for the given domain
-     * @param urls
+     *
+     * Enqueues a list of URLs into the right domain
+     *
+     * @param urls the URLs to enqueue
      */
     public synchronized void enqueueURLs(HashSet<URL> urls) {
 
-        HashMap<URL, HashSet<String>> map = new HashMap();
+        HashMap<URL, HashSet<String>> map = new HashMap<>();
 
         for (URL url : urls) {
 
@@ -126,7 +137,7 @@ public class CrawlQueue {
 
                 URL u = new URL(url.getProtocol() + "://" + url.getHost());
 
-                if (!map.containsKey(u)) map.put(u, new HashSet());
+                if (!map.containsKey(u)) map.put(u, new HashSet<>());
 
                 map.get(u).add(url.getFile() + (url.getQuery() != null ? url.getQuery() : ""));
 
@@ -170,8 +181,10 @@ public class CrawlQueue {
     }
 
     /**
+     *
      * Returns a the next URL for an available domain
-     * @return URL || null
+     *
+     * @return the next URL we are allowed to crawl
      */
     public synchronized URL getNextURL() throws CrawlQueueEmptyException, NoAvailableDomainsException {
 
@@ -182,17 +195,20 @@ public class CrawlQueue {
     }
 
     /**
-     * Returns a domain that is availble to crawl
-     * TODO: Potential problem : domains at the end of the list may never get crawled, maybe re implement as some kind of
-     * Queue system
-     * @return
+     *
+     * Returns a domain that is available to crawl
+
+     * @return the domain that we are allowed to crawl
      */
     private synchronized Domain getNextDomain() throws NoAvailableDomainsException {
 
-        // If the iterator hasn't been initilised, or it has no more elements, bring the iterator back to the start
-        // by creating a new instance. We keep a reference so all domains are attempted at some point.
+        // If the iterator hasn't been initialised, or it has no more elements,
+        // bring the iterator back to the start by creating a new instance. We
+        // keep a reference so all domains are attempted at some point.
         if (queueIterator == null || !queueIterator.hasNext()) {
+
             queueIterator = domainList.entrySet().iterator();
+
         }
 
         Domain domain = null;
@@ -236,7 +252,8 @@ public class CrawlQueue {
 
         }
 
-        if (domain == null) throw new NoAvailableDomainsException("No domains available at this time");
+        if (domain == null)
+            throw new NoAvailableDomainsException("No domains available");
 
         return domain;
 

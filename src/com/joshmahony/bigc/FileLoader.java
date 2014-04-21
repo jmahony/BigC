@@ -16,9 +16,11 @@ import java.io.IOException;
 public class FileLoader {
 
     public static String fileToString(String path) throws IOException {
+
         String content = Files.toString(new File(path), Charsets.UTF_8);
 
         return content;
+
     }
 
     /**

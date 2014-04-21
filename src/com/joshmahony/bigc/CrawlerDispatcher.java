@@ -5,9 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import java.net.UnknownHostException;
 
 /**
- * User: Josh Mahony (jm426@uni.brighton.ac.uk)
- * Date: 13/11/2013
- * Time: 19:04
+ * Dispatches the crawler threads
  */
 @Log4j2
 public class CrawlerDispatcher {
@@ -18,13 +16,15 @@ public class CrawlerDispatcher {
     public Crawler[] crawlers;
 
     /**
-     *
+     * The crawl queue
      */
     private CrawlQueue crawlQueue;
 
     /**
      *
-     * @param args
+     * Main
+     *
+     * @param args arguments
      */
     public static void main(String args[]) {
 
@@ -42,7 +42,9 @@ public class CrawlerDispatcher {
 
     /**
      *
-     * @param args
+     * Constructor
+     *
+     * @param args arguments
      */
     public CrawlerDispatcher(String args[]) throws UnknownHostException {
 
@@ -59,7 +61,9 @@ public class CrawlerDispatcher {
     }
 
     /**
+     *
      * Shutdown the crawler
+     *
      */
     public void terminate() {
 
@@ -68,7 +72,9 @@ public class CrawlerDispatcher {
     }
 
     /**
+     *
      * Create all of the crawler threads
+     *
      */
     public void dispatch() {
 

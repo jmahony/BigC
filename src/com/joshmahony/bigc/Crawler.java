@@ -11,11 +11,8 @@ import java.net.URL;
 import java.util.HashSet;
 
 /**
- * Created with IntelliJ IDEA.
- * User: joshmahony
- * Date: 13/11/2013
- * Time: 19:14
- * To change this template use File | Settings | File Templates.
+ * The main crawling loop, multiple instances can be run in separate threads,
+ * it simply goes through the queue downloading and store the HTML.
  */
 @Log4j2
 class Crawler implements Runnable {
@@ -26,13 +23,14 @@ class Crawler implements Runnable {
     private static CrawlerDispatcher crawlerDispatcher = null;
 
     /**
+     * The frontier to crawl
      */
-    private static CrawlQueue crawlQueue;
+    private static CrawlQueue crawlQueue = null;
 
     /**
      * Stores a reference to the HTML Store
      */
-    private static HTMLStore store;
+    private static HTMLStore store = null;
 
     /**
      * Flag for the while loop
@@ -41,9 +39,11 @@ class Crawler implements Runnable {
 
     /**
      *
-     * @param cd
-     * @param cq
-     * @param s
+     * Contructor
+     *
+     * @param cd the crawler dispatcher
+     * @param cq the crawl queue (frontier)
+     * @param s the HTML store
      */
     public Crawler(CrawlerDispatcher cd, CrawlQueue cq, HTMLStore s) {
 
@@ -60,7 +60,9 @@ class Crawler implements Runnable {
     }
 
     /**
+     *
      * Terminates the crawl loop
+     *
      */
     public void terminate() {
 
@@ -69,7 +71,9 @@ class Crawler implements Runnable {
     }
 
     /**
+     *
      * Crawl the web
+     *
      */
     @Override
     public void run() {
@@ -77,6 +81,7 @@ class Crawler implements Runnable {
         log.info("I'm alive!!");
 
         while(running) {
+
             try {
 
                 log.debug("Fetching next URL to crawl...");
@@ -93,7 +98,7 @@ class Crawler implements Runnable {
 
                 Document d = res.parse();
 
-                HashSet<URL> urls = HTMLUtils.extractURLs(d);
+                HashSet<URL> urls = URLExtractor.extract(d);
 
                 crawlQueue.enqueueURLs(urls);
 
@@ -138,14 +143,17 @@ class Crawler implements Runnable {
     }
 
     /**
-     * Suspend the loop
-     * @param millis
+     *
+     * Makes the loop wait for a bit for the queue to fill up with some more
+     * domains
+     *
+     * @param milliseconds how to long to wait in milliseconds
      */
-    private void waitFor(long millis) {
+    private void waitFor(long milliseconds) {
 
         try {
 
-            Thread.sleep(millis);
+            Thread.sleep(milliseconds);
 
         } catch (InterruptedException e) {
 

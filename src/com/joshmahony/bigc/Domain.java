@@ -15,23 +15,23 @@ import java.net.URL;
 import java.util.HashSet;
 
 /**
- * Created by joshmahony on 16/12/2013.
+ * Domain holds a queue of URLs within that need to be crawled.
  */
 @Log4j2
 public class Domain {
 
     /**
-     * The unix timestamp of the last time the crawler crawled this domain.
+     * The unix timestamp of the last time the crawler crawled this domain
      */
     private @Getter @Setter long lastCrawlTime;
 
     /**
-     * The rate at which this domain is allowed to be crawled.
+     * The settings for the domain, this includes the crawl rate
      */
     private DomainSettings settings;
 
     /**
-     * The domainName
+     * The actual domain
      */
     private URL domain;
 
@@ -50,7 +50,6 @@ public class Domain {
      * Whether or not the robots.txt file has been fetched
      */
     private boolean hasRobots;
-
 
     /**
      *
@@ -95,7 +94,7 @@ public class Domain {
     private void createDomainQueue() {
 
         // Make sure the domain doesn't already have a document
-        if (hasQueueInDatabase()){
+        if (domainQueueExists()){
 
             log.debug(getDomain() + " Already has domain queue in database");
 
@@ -164,6 +163,7 @@ public class Domain {
 
         // Don't enqueue URL if its disallowed in robots.txt
         if (rules != null) {
+
             HashSet<String> remove = new HashSet<String>();
 
             for(String url : urls) {
@@ -172,11 +172,11 @@ public class Domain {
 
                 boolean robotsAllowed = rules.isAllowed(u.toString());
 
-                boolean alreadyCrawled = HTMLStore.checkDiscovered(u);
+                boolean alreadyCrawled = Discovered.check(u);
 
                 if (alreadyCrawled) {
 
-                    log.info(u.toString() + " not being added");
+                    log.info(u.toString() + " already crawled");
 
                 }
 
@@ -217,7 +217,7 @@ public class Domain {
         BasicDBList queue = (BasicDBList) result.get("queue");
 
         // Check the queue isn't empty
-        if (queue.size() <= 0) {
+        if (queue.isEmpty()) {
 
             isEmpty = true;
 
@@ -267,7 +267,7 @@ public class Domain {
 
         if (hasRobots) return;
 
-        // Only get robots.txt if the domain is in the whitelist
+        // Only get robots.txt if the domain is in the white list
         if (!CrawlQueue.getDomainWhiteList().contains(getDomain())) return;
 
         log.info("Fetching robots.txt for " + getDomain());
@@ -297,7 +297,7 @@ public class Domain {
      *
      * @return true if the domain has a queue in the database
      */
-    private synchronized boolean hasQueueInDatabase() {
+    private synchronized boolean domainQueueExists() {
 
         DBCollection collection = Mongo.getCollection(C.CRAWL_QUEUE_COLLECTION);
 

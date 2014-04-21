@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration status="debug">
+<configuration status="info">
     <appenders>
         <Console name="CONSOLE" target="SYSTEM_OUT">
             <PatternLayout pattern="%d %-5p %L %t %c{2} - %m%n" />
@@ -9,7 +9,7 @@
         </File>
     </appenders>
     <loggers>
-        <root level="debug">
+        <root level="info">
             <appender-ref ref="CONSOLE" level="DEBUG" />
             <!--<appender-ref ref="DEBUG_FILE" />-->
         </root>
