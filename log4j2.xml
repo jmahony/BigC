@@ -11,7 +11,7 @@
     <loggers>
         <root level="info">
             <appender-ref ref="CONSOLE" level="DEBUG" />
-            <!--<appender-ref ref="DEBUG_FILE" />-->
+            <appender-ref ref="DEBUG_FILE" />
         </root>
     </loggers>
 </configuration>
