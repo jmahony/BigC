@@ -30,16 +30,15 @@ public class Domain {
     private long crawlRate;
 
     /**
-     * The URL of the domain (A bit confusing)
+     * The domainName
      */
-    private URL url;
+    private URL domainName;
 
     /**
      * Stores whether the queue is empty or not
      * TODO: Do something when the queue is empty, possibly recrawl?
      */
     public boolean isEmpty;
-
 
     /**
      * Store the robots.txt rules
@@ -52,18 +51,22 @@ public class Domain {
     private boolean hasRobots;
 
     /**
+     *
      * Takes in a domain name, a database connection and a settings object
-     * @param _domain
+     *
+     * @param domainName the domain name
+     * @param settings the settings for the domain
+     * @throws MalformedURLException if invalid domain
      */
-    public Domain(String _domain, Object _settings) throws MalformedURLException {
+    public Domain(String domainName, Object settings) throws MalformedURLException {
 
         lastCrawlTime = 0;
 
         hasRobots = false;
 
-        url = new URL(_domain);
+        this.domainName = new URL(domainName);
 
-        SettingsParser sp = new SettingsParser(url, (JSONObject) _settings);
+        DomainSettings sp = new DomainSettings(this.domainName, (JSONObject) settings);
 
         crawlRate = sp.getCrawlRate();
 
@@ -72,17 +75,20 @@ public class Domain {
     }
 
     /**
-     * Takes in a domain name and a database connection, the crawl rate is set to the default rate
-     * @param _domain
-     * @throws MalformedURLException
+     *
+     * Takes in a domain name and a database connection, the crawl rate is set to the default
+     * rate
+     *
+     * @param domainName the domain name
+     * @throws MalformedURLException if invalid domain
      */
-    public Domain(String _domain) throws MalformedURLException {
+    public Domain(String domainName) throws MalformedURLException {
 
         lastCrawlTime = 0;
 
         hasRobots = false;
 
-        url = new URL(_domain);
+        this.domainName = new URL(domainName);
 
         crawlRate = C.DEFAULT_CRAWL_RATE;
 
@@ -198,7 +204,7 @@ public class Domain {
         // Get the crawl queue collection
         DBCollection collection = getCollection(C.CRAWL_QUEUE_COLLECTION);
 
-        // Fetch the document, this will retrieve the whole document and then pop one url from the queue
+        // Fetch the document, this will retrieve the whole document and then pop one domainName from the queue
         DBObject result = collection.findAndModify(new BasicDBObject("domain", getDomain()), new BasicDBObject("$pop", new BasicDBObject("queue", -1)));
 
         // Get the domains queue
@@ -217,7 +223,7 @@ public class Domain {
     }
 
     /**
-     * Makes a url from the path
+     * Makes a domainName from the path
      * @param path
      * @return
      */
@@ -261,7 +267,7 @@ public class Domain {
 
         DBCollection collection = getCollection(C.HTML_STORE_COLLECTION);
 
-        DBCursor o = collection.find(new BasicDBObject("url", url.toString()));
+        DBCursor o = collection.find(new BasicDBObject("domainName", url.toString()));
 
         return o.size() > 0;
 
@@ -288,7 +294,7 @@ public class Domain {
 
         try {
 
-           rules = RobotUtils.getRobotRules(bf, parser, new URL(url.toString() + "/robots.txt"));
+           rules = RobotUtils.getRobotRules(bf, parser, new URL(domainName.toString() + "/robots.txt"));
 
            hasRobots = true;
 
@@ -345,7 +351,7 @@ public class Domain {
      */
     public String getDomain() {
 
-        return url.getHost();
+        return domainName.getHost();
 
     }
 

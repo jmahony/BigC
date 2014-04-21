@@ -1,5 +1,7 @@
 package com.joshmahony.bigc;
 
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.json.simple.JSONObject;
 
@@ -9,20 +11,19 @@ import java.net.URL;
  * Created by joshmahony on 18/12/2013.
  */
 @Log4j2
-public class SettingsParser {
+public class DomainSettings {
 
     /**
      *
      */
-    private long crawlRate;
+    private @Getter @Setter long crawlRate;
 
     /**
      *
      * @param _domain
      * @param _object
      */
-    public SettingsParser(URL _domain, JSONObject _object) {
-
+    public DomainSettings(URL _domain, JSONObject _object) {
 
         if (_object.containsKey("crawlRate")) {
 
@@ -47,14 +48,5 @@ public class SettingsParser {
         }
 
     }
-
-    /**
-     *
-     * @return
-     */
-    public long getCrawlRate() {
-        return crawlRate;
-    }
-
 
 }

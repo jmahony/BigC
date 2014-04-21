@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 
-
 /**
  * Created with IntelliJ IDEA.
  * User: joshmahony
@@ -27,7 +26,6 @@ class Crawler implements Runnable {
     private static CrawlerDispatcher crawlerDispatcher = null;
 
     /**
-     * Stores a reference to the crawl queue
      */
     private static CrawlQueue crawlQueue;
 
