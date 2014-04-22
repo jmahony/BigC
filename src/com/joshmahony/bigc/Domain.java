@@ -174,12 +174,6 @@ public class Domain {
 
                 boolean alreadyCrawled = Discovered.check(u);
 
-                if (alreadyCrawled) {
-
-                    log.info(u.toString() + " already crawled");
-
-                }
-
                 if (!robotsAllowed || alreadyCrawled || url.length() == 0) {
 
                     remove.add(url);
