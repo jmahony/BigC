@@ -2,9 +2,7 @@ package com.joshmahony.bigc;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
-import com.mongodb.MongoClient;
 import lombok.extern.log4j.Log4j2;
-import orestes.bloomfilter.redis.BloomFilterRedis;
 import org.jsoup.nodes.Document;
 
 import java.net.URL;
@@ -16,19 +14,9 @@ import java.net.URL;
 public class HTMLStore {
 
     /**
-     * Stores a connection to MongoDB
-     */
-    private final static MongoClient MONGO_CONNECTION = Mongo.getConnection();
-
-    /**
      * Holds an instance to the singleton
      */
     private static HTMLStore instance;
-
-    /**
-     * The bloom filter so we don't recrawl pages
-     */
-    private static BloomFilterRedis<String> bloomFilter;
 
     /**
      *

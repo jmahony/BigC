@@ -13,7 +13,7 @@ public class CrawlerDispatcher {
     /**
      * Stores a reference to each crawler
      */
-    public Crawler[] crawlers;
+    private Crawler[] crawlers;
 
     /**
      * The crawl queue

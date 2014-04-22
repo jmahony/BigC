@@ -159,7 +159,7 @@ public class Domain {
      */
     private HashSet<String> cleanURLs(HashSet<String> urls) {
 
-        if (!hasRobots) getRobots();
+        if (!hasRobots) initRobots();
 
         // Don't enqueue URL if its disallowed in robots.txt
         if (rules != null) {
@@ -257,7 +257,7 @@ public class Domain {
      * TODO: make the crawler fetch it on its first crawl.
      *
      */
-    private void getRobots() {
+    private void initRobots() {
 
         if (hasRobots) return;
 

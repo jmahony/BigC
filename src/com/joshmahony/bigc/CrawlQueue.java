@@ -49,75 +49,7 @@ public class CrawlQueue {
 
         queueIterator = null;
 
-        initPoliteTimes(seedPath);
-
-    }
-
-    /**
-     *
-     * Load the polite times JSON file
-     *
-     * @param path path to the JSON
-     */
-    private void initPoliteTimes(String path) {
-
-        // Load the polite times JSON file
-        JSONObject times = FileLoader.fileToJSON(path);
-
-        // Iterate over each domain in the polite times
-        for (Object o : times.entrySet()) {
-
-            Map.Entry entry = (Map.Entry) o;
-
-            try {
-
-                URL url = new URL("http://" + entry.getKey().toString());
-
-                DomainSettings settings = new DomainSettings(url, (JSONObject) entry.getValue());
-
-                Domain d = new Domain(url, settings);
-
-                addToDomainWhiteList(d);
-
-            } catch (MalformedURLException e) {
-
-                log.fatal("Malformed URL " + entry.getKey().toString());
-
-                System.exit(0);
-
-            }
-
-        }
-
-    }
-
-    /**
-     *
-     * Adds a domain to the list to crawl
-     *
-     * @param d the domain object
-     */
-    private void addToDomainList(Domain d) {
-
-        log.debug("Adding to domain list: " + d.getDomain());
-
-        domainList.put(d.getDomain(), d);
-
-    }
-
-    /**
-     *
-     * Adds a domain to the white list
-     *
-     * @param d the domain object
-     */
-    private void addToDomainWhiteList(Domain d) {
-
-        log.debug("Adding to domain white list: " + d.getDomain());
-
-        domainWhiteList.add(d.getDomain());
-
-        addToDomainList(d);
+        initSeedList(seedPath);
 
     }
 
@@ -191,6 +123,74 @@ public class CrawlQueue {
         Domain d = getNextDomain();
 
         return d.getNextURL();
+
+    }
+
+    /**
+     *
+     * Load the polite times JSON file
+     *
+     * @param path path to the JSON
+     */
+    private void initSeedList(String path) {
+
+        // Load the polite times JSON file
+        JSONObject times = FileLoader.fileToJSON(path);
+
+        // Iterate over each domain in the polite times
+        for (Object o : times.entrySet()) {
+
+            Map.Entry entry = (Map.Entry) o;
+
+            try {
+
+                URL url = new URL("http://" + entry.getKey().toString());
+
+                DomainSettings settings = new DomainSettings(url, (JSONObject) entry.getValue());
+
+                Domain d = new Domain(url, settings);
+
+                addToDomainWhiteList(d);
+
+            } catch (MalformedURLException e) {
+
+                log.fatal("Malformed URL " + entry.getKey().toString());
+
+                System.exit(0);
+
+            }
+
+        }
+
+    }
+
+    /**
+     *
+     * Adds a domain to the list to crawl
+     *
+     * @param domain the domain object
+     */
+    private void addToDomainList(Domain domain) {
+
+        log.debug("Adding to domain list: " + domain.getDomain());
+
+        domainList.put(domain.getDomain(), domain);
+
+    }
+
+    /**
+     *
+     * Adds a domain to the white list
+     *
+     * @param domain the domain object
+     */
+    private void addToDomainWhiteList(Domain domain) {
+
+        log.debug("Adding to domain white list: " + domain.getDomain());
+
+        domainWhiteList.add(domain.getDomain());
+
+        addToDomainList(domain);
 
     }
 
