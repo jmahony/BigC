@@ -4,13 +4,11 @@ BigC
 Multi-threaded Crawler
 
 # Dependencies
-[MongoDB 2.2.0](https://www.mongodb.org/downloads)
+*    [MongoDB 2.2.0](https://www.mongodb.org/downloads)
+*    [Redis 2.8.9](http://redis.io/download)
+*    [Maven 3.2.1](http://maven.apache.org/)
 
-[Redis 2.8.9](http://redis.io/download)
-
-Ant
-
-Maven
+The versions aren't necessarily correct, but they are the only version I have used with BigC.
 
 # Documentation
 
