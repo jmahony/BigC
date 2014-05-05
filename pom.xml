@@ -75,12 +75,6 @@
         </dependency>
 
         <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>orestes.bloomfilter</groupId>
             <artifactId>orestes-bf</artifactId>
             <version>1.0</version>
