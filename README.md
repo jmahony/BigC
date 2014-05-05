@@ -47,25 +47,6 @@ The uber jar along with an example seed file and log4j config file
 target/build
 ```
 
-
-
-# Databases
-A MongoDB and MySQL instance will need to be running.
-
-MySQL settings can be added to config.json
-
-```javascript
-{
-    "database": {
-        "db_name": "jdbc:mysql://localhost:3306/dbname?rewriteBatchedStatements=true",
-        "db_user": "username",
-        "db_pass": "password"
-    }
-}
-```
-
-It is advised to keep "?rewriteBatchedStatements=true" flag to minimise database round trips.
-
 # Running
 ## Normal
 ```
