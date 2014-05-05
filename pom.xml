@@ -106,6 +106,31 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>com.googlecode.flyway</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>2.3</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>copy-config-file</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target name="copy-config">
+                                <copy file="politeTimes.json" tofile="${project.build.directory}/build/politeTimes.json" />
+                                <copy file="log4j2.xml" tofile="${project.build.directory}/build/log4j2.xml" />
+                                <copy file="README.md" tofile="${project.build.directory}/build/README.md" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.2</version>
